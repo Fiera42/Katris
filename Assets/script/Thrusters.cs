@@ -5,33 +5,43 @@ using Random = UnityEngine.Random;
 public class Thrusters : MonoBehaviour {
 
     // -------------------------------- EDITABLE
-    [Header("Flight param")]
-    [SerializeField] private float main_thruster_force;
-    [SerializeField] private float rotation_thruster_force;
-    [SerializeField] private float rcs_thruster_force;
+    [SerializeField] protected ShipData shipData;
 
     // -------------------------------- PARAMS
-    private Rigidbody2D myBody;
+    protected Rigidbody2D myBody;
+
     public Vector2? target_velocity;
     public Vector2? target_orientation;
 
-    void Start() 
+    protected void Start() 
     {
+        // Get components
         myBody = gameObject.GetComponent<Rigidbody2D>();
-        if(myBody == null)
+
+        if (shipData == null)
+        {
+            enabled = false;
+            Debug.LogError($"{GetType().Name}({name}): shipData is null.");
+            return;
+        }
+
+        if (myBody == null)
         {
             enabled = false;
             Debug.LogError($"{GetType().Name}({name}): no rigidBody found in gameObject.");
+            return;
         }
+
+        // Start method itself
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         thrust(target_velocity);
         rcsThrust(target_velocity);
         rotationThrust(target_orientation);
     }
-    private void rotationThrust(Vector2? arg_target_orientation = null)
+    protected void rotationThrust(Vector2? arg_target_orientation = null)
     {
         Vector2 target_orientation;
 
@@ -56,14 +66,14 @@ public class Thrusters : MonoBehaviour {
         }
 
         // Calculate the distance we would take to stop completly the rotation
-        float settle_distance = ((MathF.Abs(myBody.angularVelocity) / rotation_thruster_force) * myBody.angularVelocity) / 2;
+        float settle_distance = ((MathF.Abs(myBody.angularVelocity) / shipData.rotation_thruster_force) * myBody.angularVelocity) / 2;
         float settle_point = Mathf.Repeat(angle_error - settle_distance + 180, 360) - 180;
 
         // Calculate the angle change in the next frame using current angular velocity and deltaTime
         float nextAngleChange = myBody.angularVelocity * Time.fixedDeltaTime;
 
         // If we approach the right angle and can stop within the next frame, we stop
-        if (Mathf.Abs(myBody.angularVelocity) <= rotation_thruster_force * Time.fixedDeltaTime + 15 && Mathf.Abs(angle_error) <= Mathf.Abs(nextAngleChange))
+        if (Mathf.Abs(myBody.angularVelocity) <= shipData.rotation_thruster_force * Time.fixedDeltaTime + 15 && Mathf.Abs(angle_error) <= Mathf.Abs(nextAngleChange))
         {
             myBody.angularVelocity = 0f;
             myBody.rotation += angle_error;
@@ -72,17 +82,17 @@ public class Thrusters : MonoBehaviour {
         // If sign of settle_point == sign of current angular velocity, going faster is the fastest way to reach target
         else if (MathF.Sign(settle_point) == MathF.Sign(myBody.angularVelocity))
         {
-            myBody.angularVelocity += rotation_thruster_force * Time.fixedDeltaTime * MathF.Sign(settle_point);
+            myBody.angularVelocity += shipData.rotation_thruster_force * Time.fixedDeltaTime * MathF.Sign(settle_point);
         }
 
         // If sign of settle_point != sign of current angular velocity, slowing down and reverse is the fastest way
         else
         {
-            myBody.angularVelocity -= rotation_thruster_force * Time.fixedDeltaTime * -(MathF.Sign(settle_point));
+            myBody.angularVelocity -= shipData.rotation_thruster_force * Time.fixedDeltaTime * -(MathF.Sign(settle_point));
         }   
     }
 
-    private void rcsThrust(Vector2? target_velocity = null)
+    protected void rcsThrust(Vector2? target_velocity = null)
     {
         if (target_velocity is null)
         {
@@ -95,14 +105,14 @@ public class Thrusters : MonoBehaviour {
             Vector2 velocity_difference = (Vector2)target_velocity - myBody.velocity;
             Vector2 direction = velocity_difference.normalized;
 
-            float additional_velocity_magnitude = MathF.Min(velocity_difference.magnitude, rcs_thruster_force * Time.fixedDeltaTime);
+            float additional_velocity_magnitude = MathF.Min(velocity_difference.magnitude, shipData.rcs_thruster_force * Time.fixedDeltaTime);
 
             Vector2 additional_velocity = direction * additional_velocity_magnitude;
             myBody.velocity += additional_velocity;
         }
     }
 
-    private void thrust(Vector2? target_velocity = null)
+    protected void thrust(Vector2? target_velocity = null)
     {
         if (target_velocity is null)
         {
@@ -122,7 +132,7 @@ public class Thrusters : MonoBehaviour {
         // If I want to go faster
         if (myBody.velocity.magnitude < ((Vector2)target_velocity).magnitude)
         {
-            float additional_velocity = main_thruster_force * MathF.Max(0, dot_angle) * Time.fixedDeltaTime;
+            float additional_velocity = shipData.main_thruster_force * MathF.Max(0, dot_angle) * Time.fixedDeltaTime;
 
             float magnitude_differential = ((Vector2)target_velocity).magnitude - myBody.velocity.magnitude;
             additional_velocity = MathF.Min(additional_velocity, magnitude_differential);
@@ -133,7 +143,7 @@ public class Thrusters : MonoBehaviour {
         // If I want to go slower
         else
         {
-            float additional_velocity = main_thruster_force * MathF.Max(0, -dot_angle) * Time.fixedDeltaTime;
+            float additional_velocity = shipData.main_thruster_force * MathF.Max(0, -dot_angle) * Time.fixedDeltaTime;
 
             float magnitude_differential = myBody.velocity.magnitude - ((Vector2)target_velocity).magnitude;
             additional_velocity = MathF.Min(additional_velocity, magnitude_differential);

@@ -584,8 +584,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.21133333}
-  m_Size: {x: 1, y: 1}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.2704227, y: 1.2704227}
   m_Direction: 0
 --- !u!50 &1083470814
 Rigidbody2D:
@@ -674,13 +674,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083470812}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.58113843, w: 0.81380475}
+  m_LocalPosition: {x: -11.848734, y: 3.661914, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -71.061}
 --- !u!114 &1083470817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,9 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0213f7d3937fb2a4d86b21b5adefb494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  main_thruster_force: 1
-  rotation_thruster_force: 360
-  rcs_thruster_force: 1
+  shipData: {fileID: 11400000, guid: aba8902d18d77874c94a9d2991d37e37, type: 2}
 --- !u!114 &1083470818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,8 +706,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69fcb658cf64a6c4493f0454186de8d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotation: 0
-  speed: 100
+  shipData: {fileID: 11400000, guid: aba8902d18d77874c94a9d2991d37e37, type: 2}
+  speed: 10
 --- !u!1 &1110017523
 GameObject:
   m_ObjectHideFlags: 0
