@@ -541,6 +541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1083470816}
   - component: {fileID: 1083470815}
+  - component: {fileID: 1083470818}
   - component: {fileID: 1083470817}
   - component: {fileID: 1083470814}
   - component: {fileID: 1083470813}
@@ -695,8 +696,20 @@ MonoBehaviour:
   main_thruster_force: 1
   rotation_thruster_force: 360
   rcs_thruster_force: 1
-  rotation: 180
-  speed: 10
+--- !u!114 &1083470818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083470812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69fcb658cf64a6c4493f0454186de8d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotation: 0
+  speed: 100
 --- !u!1 &1110017523
 GameObject:
   m_ObjectHideFlags: 0
