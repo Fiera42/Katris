@@ -83,10 +83,10 @@ public class Boid : MonoBehaviour
         float raycastRadius = Mathf.Max(spriteRenderer.bounds.size.x, spriteRenderer.bounds.size.y) / 2;
 
         // break offset = time to turn in the right direction + time to compensate angular velocity
-        float break_offset = shipData.rotation_duration + Mathf.Abs(myBody.angularVelocity) / shipData.rotation_thruster_force;
+        float break_offset = (shipData.rotation_duration) + (Mathf.Abs(myBody.angularVelocity) / shipData.rotation_thruster_force);
 
         // break distance = distance passed while turning + distance passed while breaking
-        float break_distance = (break_offset * myBody.velocity.magnitude) + ((myBody.velocity.magnitude * myBody.velocity.magnitude) / (2 * shipData.main_thruster_force));
+        float break_distance = (break_offset * myBody.velocity.magnitude) + ((myBody.velocity.magnitude * myBody.velocity.magnitude) / (2 * (shipData.main_thruster_force + shipData.rcs_thruster_force)));
 
         RaycastHit2D hit = Physics2D.CircleCast(transform.position, raycastRadius, myBody.velocity.normalized, break_distance, 1 << LayerMask.NameToLayer("Obstacle"));
 
