@@ -66,7 +66,7 @@ public class Thrusters : MonoBehaviour {
         }
 
         // Calculate the distance we would take to stop completly the rotation
-        float settle_distance = ((MathF.Abs(myBody.angularVelocity) / shipData.rotation_thruster_force) * myBody.angularVelocity) / 2;
+        float settle_distance = ((MathF.Abs(myBody.angularVelocity) / (shipData.rotation_thruster_force + 1e-6f)) * myBody.angularVelocity) / 2;
         float settle_point = Mathf.Repeat(angle_error - settle_distance + 180, 360) - 180;
 
         // Calculate the angle change in the next frame using current angular velocity and deltaTime
