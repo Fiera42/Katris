@@ -16,4 +16,3 @@ MonoBehaviour:
   main_thruster_force: 5
   rotation_thruster_force: 360
   rcs_thruster_force: 1
-  patrolSpeed: 10

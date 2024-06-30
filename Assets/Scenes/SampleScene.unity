@@ -233,7 +233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &525068174
 Rigidbody2D:
   serializedVersion: 4
@@ -391,7 +391,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &605486912
 Rigidbody2D:
   serializedVersion: 4
@@ -543,6 +543,7 @@ GameObject:
   - component: {fileID: 1083470815}
   - component: {fileID: 1083470818}
   - component: {fileID: 1083470817}
+  - component: {fileID: 1083470819}
   - component: {fileID: 1083470814}
   - component: {fileID: 1083470813}
   m_Layer: 8
@@ -585,7 +586,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.2704227, y: 1.2704227}
+  m_Size: {x: 1.0176598, y: 1.0176598}
   m_Direction: 0
 --- !u!50 &1083470814
 Rigidbody2D:
@@ -674,13 +675,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083470812}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.58113843, w: 0.81380475}
-  m_LocalPosition: {x: -11.848734, y: 3.661914, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.008909621, w: 0.9999603}
+  m_LocalPosition: {x: 38.3, y: 35.4, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -71.061}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.021}
 --- !u!114 &1083470817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,7 +708,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipData: {fileID: 11400000, guid: aba8902d18d77874c94a9d2991d37e37, type: 2}
-  speed: 10
+--- !u!114 &1083470819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083470812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf3e10556513ec4e89b5cf22d60fcc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mustPatrolArea: 0
+  areaPrefab: {fileID: 7408038643335535659, guid: 3a78987bb1560384b9606e7e11c5fd23, type: 3}
 --- !u!1 &1110017523
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &1110017524
 Rigidbody2D:
   serializedVersion: 4
@@ -884,7 +898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &1407750554
 Rigidbody2D:
   serializedVersion: 4

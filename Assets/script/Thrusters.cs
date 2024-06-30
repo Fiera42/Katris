@@ -45,7 +45,7 @@ public class Thrusters : MonoBehaviour {
     {
         Vector2 target_orientation;
 
-        // If no orientation provided, align to the direction of movement (or not if there is no target movement)
+        // If no orientation provided, align to the direction of movement (or not if there is no movement)
         if (arg_target_orientation is null)
         {
             Vector2 normalized_target_velocity = myBody.velocity.normalized;
@@ -129,12 +129,23 @@ public class Thrusters : MonoBehaviour {
         Vector2 target_direction = (target_velocity == Vector2.zero) ? myBody.velocity.normalized : ((Vector2)target_velocity).normalized;
         float dot_angle = Vector2.Dot(target_direction, transform.up);
 
+        // Check our actual speed in the wanted direction
+        Vector2 actual_speed = ((Vector2)target_velocity).normalized * myBody.velocity;
+        float actual_speed_magnitude = actual_speed.magnitude * MathF.Sign(Vector2.Dot(myBody.velocity, (Vector2)target_velocity));
+
+        /*
+        Debug.DrawRay(transform.position, myBody.velocity, Color.red);
+        Debug.DrawRay(transform.position, ((Vector2)target_velocity).normalized * actual_speed_magnitude, Color.yellow);
+        Debug.DrawRay(transform.position, ((Vector2)target_velocity).normalized, Color.green);
+        Debug.Log(actual_speed_magnitude);
+        */
+
         // If I want to go faster
-        if (myBody.velocity.magnitude < ((Vector2)target_velocity).magnitude)
+        if (actual_speed_magnitude < ((Vector2)target_velocity).magnitude)
         {
             float additional_velocity = shipData.main_thruster_force * MathF.Max(0, dot_angle) * Time.fixedDeltaTime;
 
-            float magnitude_differential = ((Vector2)target_velocity).magnitude - myBody.velocity.magnitude;
+            float magnitude_differential = ((Vector2)target_velocity).magnitude - actual_speed_magnitude;
             additional_velocity = MathF.Min(additional_velocity, magnitude_differential);
 
             myBody.velocity += additional_velocity * (Vector2)transform.up;
@@ -145,7 +156,7 @@ public class Thrusters : MonoBehaviour {
         {
             float additional_velocity = shipData.main_thruster_force * MathF.Max(0, -dot_angle) * Time.fixedDeltaTime;
 
-            float magnitude_differential = myBody.velocity.magnitude - ((Vector2)target_velocity).magnitude;
+            float magnitude_differential = actual_speed_magnitude - ((Vector2)target_velocity).magnitude;
             additional_velocity = MathF.Min(additional_velocity, magnitude_differential);
 
             myBody.velocity += additional_velocity * (Vector2)transform.up;
