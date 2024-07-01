@@ -9,6 +9,9 @@ public class ShipData : ScriptableObject
 {
     [Header("General")]
     public Sprite sprite;
+    public CapsuleDirection2D colliderDirection;
+    public Vector2 colliderSize;
+    [HideInInspector] public Sprite defaultSprite;
 
     [Header("Flight param")]
     public float main_thruster_force;

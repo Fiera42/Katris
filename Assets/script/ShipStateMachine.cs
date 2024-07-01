@@ -10,12 +10,14 @@ public class ShipStateMachine : MonoBehaviour
 
     [HideInInspector] public Circle? targetArea = null;
     [HideInInspector] public bool mustPatrolArea;
+    [SerializeField] protected ShipData shipData;
 
-    public GameObject areaPrefab; // TEMP
+    // -------------------------------- PARAMS
+    protected Rigidbody2D myBody;
 
     // -------------------------------- STATES
 
-    [HideInInspector] public int state { get; private set; } = IDLING;
+    public int state { get; private set; } = IDLING;
 
     public const int IDLING = 0;
     public const int PATROLING = 1;
@@ -24,8 +26,27 @@ public class ShipStateMachine : MonoBehaviour
 
     void Start()
     {
+
+        // -Temp-
         targetArea = new Circle(new Vector3(0,0,0), 10);
-        mustPatrolArea = true;
+        mustPatrolArea = false;
+        // -Temp-
+
+        myBody = gameObject.GetComponent<Rigidbody2D>();
+
+        if (shipData == null)
+        {
+            enabled = false;
+            Debug.LogError($"{GetType().Name}({name}): shipData is null.");
+            return;
+        }
+
+        if (myBody == null)
+        {
+            enabled = false;
+            Debug.LogError($"{GetType().Name}({name}): no rigidBody found in gameObject.");
+            return;
+        }
     }
 
     // -------------------------------- STATE MACHINE
@@ -41,7 +62,7 @@ public class ShipStateMachine : MonoBehaviour
                 if (targetArea == null) { state = IDLING; break; }
                 isInArea = ((Circle)targetArea).radius > Vector2.Distance(transform.position, ((Circle)targetArea).center);
                 if (!isInArea) { state = MOVING_TO_TARGET_AREA; break; }
-                if (isInArea && !mustPatrolArea) { state = IDLING; targetArea = null;  break; }
+                if (isInArea && !mustPatrolArea) { state = IDLING; targetArea = null; break; }
                 if (isInArea && mustPatrolArea) { state = PATROLING; break; }
                 break;
 

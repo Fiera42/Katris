@@ -129,6 +129,12 @@ public class Thrusters : MonoBehaviour {
         Vector2 target_direction = (target_velocity == Vector2.zero) ? myBody.velocity.normalized : ((Vector2)target_velocity).normalized;
         float dot_angle = Vector2.Dot(target_direction, transform.up);
 
+        
+        if(Mathf.Abs(dot_angle) < 0.9f) // We are facing a weird direction, dont thrust
+        {
+            return;
+        }
+
         // Check our actual speed in the wanted direction
         Vector2 actual_speed = ((Vector2)target_velocity).normalized * myBody.velocity;
         float actual_speed_magnitude = actual_speed.magnitude * MathF.Sign(Vector2.Dot(myBody.velocity, (Vector2)target_velocity));

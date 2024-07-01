@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: basic
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 260ccc5331811184ea1f0f730c93b24a, type: 3}
+  colliderDirection: 0
+  colliderSize: {x: 0.6, y: 0.98}
+  defaultSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   main_thruster_force: 5
   rotation_thruster_force: 360
   rcs_thruster_force: 1
