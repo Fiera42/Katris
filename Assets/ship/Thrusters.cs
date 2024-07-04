@@ -13,7 +13,7 @@ public class Thrusters : MonoBehaviour {
     public Vector2? target_velocity;
     public Vector2? target_orientation;
 
-    protected void Start() 
+    protected void Awake() 
     {
         // Get components
         myBody = gameObject.GetComponent<Rigidbody2D>();
@@ -31,8 +31,6 @@ public class Thrusters : MonoBehaviour {
             Debug.LogError($"{GetType().Name}({name}): no rigidBody found in gameObject.");
             return;
         }
-
-        // Start method itself
     }
 
     protected void FixedUpdate()

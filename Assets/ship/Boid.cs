@@ -44,7 +44,7 @@ public class Boid : MonoBehaviour
 
     // -------------------------------- LOGIC
 
-    protected void Start()
+    protected void Awake()
     {
         // Get components
         myRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -101,6 +101,7 @@ public class Boid : MonoBehaviour
         myCollider.size = shipData.colliderSize;
 
         // -Temp-
+        /*
         float maxNoiseMagnitude = 50;
         float noiseX = Random.Range(-maxNoiseMagnitude, maxNoiseMagnitude);
         float noiseY = Random.Range(-maxNoiseMagnitude, maxNoiseMagnitude);
@@ -109,13 +110,14 @@ public class Boid : MonoBehaviour
 
         float maxRotationNoise = 50;
         myBody.angularVelocity = Random.Range(-maxRotationNoise, maxRotationNoise);
+        */
         // -Temp-
     }
 
     protected void FixedUpdate()
     {
         // ------- Obstacle avoidance
-        Vector2 collision_vector = getCollisionVector(1 << LayerMask.NameToLayer("Obstacle"));
+        Vector2 collision_vector = GetCollisionVector(1 << LayerMask.NameToLayer("Obstacle"));
 
         if (collision_vector != Vector2.zero)
         {
@@ -153,7 +155,7 @@ public class Boid : MonoBehaviour
                 break;
 
             case ShipStateMachine.PATROLING: // --------------------------------------------------------------------------------------
-                Vector2 area_collision_vector = getAreaCollisionVector((Circle)myStateMachine.targetArea);
+                Vector2 area_collision_vector = GetAreaCollisionVector((Circle)myStateMachine.targetArea);
 
                 if (area_collision_vector != Vector2.zero)
                 {
@@ -169,7 +171,7 @@ public class Boid : MonoBehaviour
                 break;
 
             case ShipStateMachine.MOVING_TO_TARGET_AREA: // --------------------------------------------------------------------------------------
-                float break_distance = getBreakDistance();
+                float break_distance = GetBreakDistance();
                 Vector2 break_point = (Vector2)transform.position + myBody.velocity.normalized * break_distance;
                 int zone_intersect_count = ((Circle)myStateMachine.targetArea).GetIntersectCount(transform.position, break_point);
 
@@ -259,10 +261,10 @@ public class Boid : MonoBehaviour
 
     // -------------------------------- METHODS
 
-    protected Vector2 getCollisionVector(int layermask)
+    protected Vector2 GetCollisionVector(int layermask)
     {
         float raycastRadius = Mathf.Max(myRenderer.bounds.size.x, myRenderer.bounds.size.y) / 2;
-        float break_distance = getBreakDistance();
+        float break_distance = GetBreakDistance();
 
         RaycastHit2D hit = Physics2D.CircleCast(transform.position, raycastRadius, myBody.velocity.normalized, break_distance, layermask);
 
@@ -278,9 +280,9 @@ public class Boid : MonoBehaviour
         return Vector2.zero;
     }
 
-    protected Vector2 getAreaCollisionVector(Circle area)
+    protected Vector2 GetAreaCollisionVector(Circle area)
     {
-        float break_distance = getBreakDistance();
+        float break_distance = GetBreakDistance();
         Vector2 stop_position = transform.position;
         stop_position += myBody.velocity.normalized * break_distance;
 
@@ -299,7 +301,7 @@ public class Boid : MonoBehaviour
 
     // -------------------------------- UTILS
 
-    protected float getBreakDistance()
+    protected float GetBreakDistance()
     {
         // break offset = time to turn in the right direction + time to compensate angular velocity (hack)
         float break_offset = (shipData.rotation_duration) + (Mathf.Abs(myBody.angularVelocity) / (shipData.rotation_thruster_force + 1e-6f));

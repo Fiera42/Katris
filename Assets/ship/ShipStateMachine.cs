@@ -24,11 +24,11 @@ public class ShipStateMachine : MonoBehaviour
     public const int MOVING_TO_TARGET_AREA = 2;
     
 
-    void Start()
+    void Awake()
     {
 
         // -Temp-
-        targetArea = new Circle(new Vector3(0,0,0), 10);
+        //targetArea = new Circle(new Vector3(0,0,0), 10);
         mustPatrolArea = false;
         // -Temp-
 
@@ -94,7 +94,7 @@ public class ShipStateMachine : MonoBehaviour
         if (targetArea == null) return;
 
         Color color = Color.cyan;
-        color.a = 0.1f;
+        color.a = 0.5f;
         Gizmos.color = color;
         Gizmos.DrawSphere(new Vector3(((Circle)targetArea).center.x, ((Circle)targetArea).center.y, transform.position.y), ((Circle)targetArea).radius);
     }
