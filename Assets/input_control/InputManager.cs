@@ -22,35 +22,32 @@ public class InputManager : MonoBehaviour
     // -------------------------------- PUBLIC
     public List<ShipStateMachine> selected_ships = new();
 
-    // -------------------------------- PREFAB
-    public GameObject movementSelectorPrefab;
 
     // -------------------------------- PARAMS
-    private GameObject movementSelector;
+    private PatrolMovementSelector patrolMovementSelector;
 
     private void Awake()
     {
         inputController = new InputController();
+        patrolMovementSelector = GetComponent<PatrolMovementSelector>();
 
-        if (movementSelectorPrefab == null)
+        if (patrolMovementSelector == null)
         {
             enabled = false;
-            Debug.LogError($"{GetType().Name}({name}): movementSelectorPrefab is null.");
+            Debug.LogError($"{GetType().Name}({name}): no patrolMovementSelector found in gameObject.");
             return;
         }
-
-        movementSelector = Instantiate(movementSelectorPrefab, transform);
     }
 
     private void OnEnable()
     {
-        movementSelector.SetActive(true);
+        patrolMovementSelector.enabled = true;
     }
 
     private void OnDisable()
     {
         // Reset all components
-        movementSelector.SetActive(false);
+        patrolMovementSelector.enabled = false;
 
         // Garbage collection
         inputController.Disable();

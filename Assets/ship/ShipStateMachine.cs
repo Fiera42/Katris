@@ -36,15 +36,15 @@ public class ShipStateMachine : MonoBehaviour
 
         if (shipData == null)
         {
-            enabled = false;
             Debug.LogError($"{GetType().Name}({name}): shipData is null.");
+            enabled = false;
             return;
         }
 
         if (myBody == null)
         {
-            enabled = false;
             Debug.LogError($"{GetType().Name}({name}): no rigidBody found in gameObject.");
+            enabled = false;
             return;
         }
     }

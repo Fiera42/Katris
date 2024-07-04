@@ -26,15 +26,15 @@ public class Boid : MonoBehaviour
 
         if (myRenderer == null)
         {
-            enabled = false;
             Debug.LogError($"{GetType().Name}({name}): no sprite renderer found in gameObject.");
+            enabled = false;
             return;
         }
 
         if (myCollider == null)
         {
-            enabled = false;
             Debug.LogError($"{GetType().Name}({name}): no CapsuleCollider2D found in gameObject.");
+            enabled = false;
             return;
         }
 

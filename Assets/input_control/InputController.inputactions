@@ -2,7 +2,7 @@
     "name": "InputController",
     "maps": [
         {
-            "name": "MovementZone",
+            "name": "PatrolMovementSelection",
             "id": "b587f8ae-80d1-4487-b90f-99d6968a2c7e",
             "actions": [
                 {
@@ -38,7 +38,7 @@
                     "name": "",
                     "id": "46a1de04-9694-475f-9c73-7c47d73d4dbe",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Press(pressPoint=0.01),SlowTap(duration=0.3)",
+                    "interactions": "Press(pressPoint=0.01),SlowTap(duration=0.15)",
                     "processors": "",
                     "groups": "",
                     "action": "placePoint",

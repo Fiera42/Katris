@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
 
-public class MovementSelector : MonoBehaviour
-{
-    // -------------------------------- EDITABLE
+public class PatrolMovementSelector : MonoBehaviour 
+{ 
+
+    // -------------------------------- PREFAB
     [SerializeField] protected GameObject zoneDisplayPrefab;
 
     // -------------------------------- PARAMS
@@ -15,19 +16,19 @@ public class MovementSelector : MonoBehaviour
 
     private void Awake()
     {
-        inputManager = FindObjectOfType<InputManager>();
+        inputManager = GetComponent<InputManager>();
 
         if (inputManager == null)
         {
-            enabled = false;
             Debug.LogError($"{GetType().Name}({name}): no input manager found in scene.");
+            enabled = false;
             return;
         }
 
         if (zoneDisplayPrefab == null)
         {
-            enabled = false;
             Debug.LogError($"{GetType().Name}({name}): zoneDisplayPrefab is null.");
+            enabled = false;
             return;
         }
 
@@ -37,16 +38,16 @@ public class MovementSelector : MonoBehaviour
 
     private void OnEnable()
     {
-        inputManager.inputController.MovementZone.Enable();
-        inputManager.inputController.MovementZone.placePoint.performed += OnPlacePoint;
-        inputManager.inputController.MovementZone.cancel.performed += OnCancel;
+        inputManager.inputController.PatrolMovementSelection.Enable();
+        inputManager.inputController.PatrolMovementSelection.placePoint.performed += OnPlacePoint;
+        inputManager.inputController.PatrolMovementSelection.cancel.performed += OnCancel;
     }
 
     private void OnDisable()
     {
-        inputManager.inputController.MovementZone.placePoint.performed -= OnPlacePoint;
-        inputManager.inputController.MovementZone.cancel.performed -= OnCancel;
-        inputManager.inputController.MovementZone.Disable();
+        inputManager.inputController.PatrolMovementSelection.placePoint.performed -= OnPlacePoint;
+        inputManager.inputController.PatrolMovementSelection.cancel.performed -= OnCancel;
+        inputManager.inputController.PatrolMovementSelection.Disable();
         zoneDisplay.SetActive(false);
     }
 
@@ -54,7 +55,7 @@ public class MovementSelector : MonoBehaviour
     {
         if (zoneDisplay.activeSelf)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementZone.mousePosition.ReadValue<Vector2>());
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.PatrolMovementSelection.mousePosition.ReadValue<Vector2>());
             float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition) * 2;
             zoneDisplay.transform.localScale = new Vector2(radius, radius);
         }
@@ -66,7 +67,7 @@ public class MovementSelector : MonoBehaviour
         // First input -> Set the center of the zone
         if(!zoneDisplay.activeSelf)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementZone.mousePosition.ReadValue<Vector2>());
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.PatrolMovementSelection.mousePosition.ReadValue<Vector2>());
             zoneDisplay.transform.position = new Vector3(mousePosition.x, mousePosition.y, zoneDisplay.transform.position.z);
             zoneDisplay.SetActive(true);
         }
@@ -74,7 +75,8 @@ public class MovementSelector : MonoBehaviour
         // Second input -> Set the radius of the zone
         else
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementZone.mousePosition.ReadValue<Vector2>());
+            // Send the selected movement to the selected units
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.PatrolMovementSelection.mousePosition.ReadValue<Vector2>());
             float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition);
             zoneDisplay.transform.localScale = new Vector2(radius * 2, radius * 2);
 
@@ -84,12 +86,12 @@ public class MovementSelector : MonoBehaviour
             }
 
             // Close context
-            gameObject.SetActive(false);
+            enabled = false;
         }
     }
 
     private void OnCancel(InputAction.CallbackContext context)
     {
-        gameObject.SetActive(false);
+        enabled = false;
     }
 }
