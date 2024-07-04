@@ -60,7 +60,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""46a1de04-9694-475f-9c73-7c47d73d4dbe"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Tap,Press(behavior=2)"",
+                    ""interactions"": ""Press(pressPoint=0.01),SlowTap(duration=0.3)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""placePoint"",
