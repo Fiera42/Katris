@@ -24,7 +24,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     ""name"": ""InputController"",
     ""maps"": [
         {
-            ""name"": ""PatrolMovementSelection"",
+            ""name"": ""MovementSelection"",
             ""id"": ""b587f8ae-80d1-4487-b90f-99d6968a2c7e"",
             ""actions"": [
                 {
@@ -60,7 +60,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""46a1de04-9694-475f-9c73-7c47d73d4dbe"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press(pressPoint=0.01),SlowTap(duration=0.15)"",
+                    ""interactions"": ""Press(pressPoint=0.01),SlowTap(duration=0.3)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""placePoint"",
@@ -94,11 +94,11 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // PatrolMovementSelection
-        m_PatrolMovementSelection = asset.FindActionMap("PatrolMovementSelection", throwIfNotFound: true);
-        m_PatrolMovementSelection_placePoint = m_PatrolMovementSelection.FindAction("placePoint", throwIfNotFound: true);
-        m_PatrolMovementSelection_cancel = m_PatrolMovementSelection.FindAction("cancel", throwIfNotFound: true);
-        m_PatrolMovementSelection_mousePosition = m_PatrolMovementSelection.FindAction("mousePosition", throwIfNotFound: true);
+        // MovementSelection
+        m_MovementSelection = asset.FindActionMap("MovementSelection", throwIfNotFound: true);
+        m_MovementSelection_placePoint = m_MovementSelection.FindAction("placePoint", throwIfNotFound: true);
+        m_MovementSelection_cancel = m_MovementSelection.FindAction("cancel", throwIfNotFound: true);
+        m_MovementSelection_mousePosition = m_MovementSelection.FindAction("mousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -157,28 +157,28 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PatrolMovementSelection
-    private readonly InputActionMap m_PatrolMovementSelection;
-    private List<IPatrolMovementSelectionActions> m_PatrolMovementSelectionActionsCallbackInterfaces = new List<IPatrolMovementSelectionActions>();
-    private readonly InputAction m_PatrolMovementSelection_placePoint;
-    private readonly InputAction m_PatrolMovementSelection_cancel;
-    private readonly InputAction m_PatrolMovementSelection_mousePosition;
-    public struct PatrolMovementSelectionActions
+    // MovementSelection
+    private readonly InputActionMap m_MovementSelection;
+    private List<IMovementSelectionActions> m_MovementSelectionActionsCallbackInterfaces = new List<IMovementSelectionActions>();
+    private readonly InputAction m_MovementSelection_placePoint;
+    private readonly InputAction m_MovementSelection_cancel;
+    private readonly InputAction m_MovementSelection_mousePosition;
+    public struct MovementSelectionActions
     {
         private @InputController m_Wrapper;
-        public PatrolMovementSelectionActions(@InputController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @placePoint => m_Wrapper.m_PatrolMovementSelection_placePoint;
-        public InputAction @cancel => m_Wrapper.m_PatrolMovementSelection_cancel;
-        public InputAction @mousePosition => m_Wrapper.m_PatrolMovementSelection_mousePosition;
-        public InputActionMap Get() { return m_Wrapper.m_PatrolMovementSelection; }
+        public MovementSelectionActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @placePoint => m_Wrapper.m_MovementSelection_placePoint;
+        public InputAction @cancel => m_Wrapper.m_MovementSelection_cancel;
+        public InputAction @mousePosition => m_Wrapper.m_MovementSelection_mousePosition;
+        public InputActionMap Get() { return m_Wrapper.m_MovementSelection; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PatrolMovementSelectionActions set) { return set.Get(); }
-        public void AddCallbacks(IPatrolMovementSelectionActions instance)
+        public static implicit operator InputActionMap(MovementSelectionActions set) { return set.Get(); }
+        public void AddCallbacks(IMovementSelectionActions instance)
         {
-            if (instance == null || m_Wrapper.m_PatrolMovementSelectionActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PatrolMovementSelectionActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_MovementSelectionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MovementSelectionActionsCallbackInterfaces.Add(instance);
             @placePoint.started += instance.OnPlacePoint;
             @placePoint.performed += instance.OnPlacePoint;
             @placePoint.canceled += instance.OnPlacePoint;
@@ -190,7 +190,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @mousePosition.canceled += instance.OnMousePosition;
         }
 
-        private void UnregisterCallbacks(IPatrolMovementSelectionActions instance)
+        private void UnregisterCallbacks(IMovementSelectionActions instance)
         {
             @placePoint.started -= instance.OnPlacePoint;
             @placePoint.performed -= instance.OnPlacePoint;
@@ -203,22 +203,22 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @mousePosition.canceled -= instance.OnMousePosition;
         }
 
-        public void RemoveCallbacks(IPatrolMovementSelectionActions instance)
+        public void RemoveCallbacks(IMovementSelectionActions instance)
         {
-            if (m_Wrapper.m_PatrolMovementSelectionActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_MovementSelectionActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPatrolMovementSelectionActions instance)
+        public void SetCallbacks(IMovementSelectionActions instance)
         {
-            foreach (var item in m_Wrapper.m_PatrolMovementSelectionActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_MovementSelectionActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PatrolMovementSelectionActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_MovementSelectionActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PatrolMovementSelectionActions @PatrolMovementSelection => new PatrolMovementSelectionActions(this);
-    public interface IPatrolMovementSelectionActions
+    public MovementSelectionActions @MovementSelection => new MovementSelectionActions(this);
+    public interface IMovementSelectionActions
     {
         void OnPlacePoint(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);

@@ -26,12 +26,6 @@ public class ShipStateMachine : MonoBehaviour
 
     void Awake()
     {
-
-        // -Temp-
-        //targetArea = new Circle(new Vector3(0,0,0), 10);
-        mustPatrolArea = false;
-        // -Temp-
-
         myBody = gameObject.GetComponent<Rigidbody2D>();
 
         if (shipData == null)

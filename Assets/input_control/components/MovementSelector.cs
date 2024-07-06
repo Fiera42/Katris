@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
 
-public class PatrolMovementSelector : MonoBehaviour 
+public class MovementSelector : MonoBehaviour 
 { 
 
-    // -------------------------------- PREFAB
+    // -------------------------------- EDITABLE
     [SerializeField] protected GameObject zoneDisplayPrefab;
+    [SerializeField] protected float nonPatrolOrderMinCircle;
+    public bool isPatrolOrder;
 
-    // -------------------------------- PARAMS
+    // -------------------------------- REFERENCES
     private InputManager inputManager;
     private GameObject zoneDisplay;
 
@@ -38,24 +40,25 @@ public class PatrolMovementSelector : MonoBehaviour
 
     private void OnEnable()
     {
-        inputManager.inputController.PatrolMovementSelection.Enable();
-        inputManager.inputController.PatrolMovementSelection.placePoint.performed += OnPlacePoint;
-        inputManager.inputController.PatrolMovementSelection.cancel.performed += OnCancel;
+        inputManager.inputController.MovementSelection.Enable();
+        inputManager.inputController.MovementSelection.placePoint.performed += OnPlacePoint;
+        inputManager.inputController.MovementSelection.cancel.performed += OnCancel;
+        zoneDisplay.SetActive(false);
     }
 
     private void OnDisable()
     {
-        inputManager.inputController.PatrolMovementSelection.placePoint.performed -= OnPlacePoint;
-        inputManager.inputController.PatrolMovementSelection.cancel.performed -= OnCancel;
-        inputManager.inputController.PatrolMovementSelection.Disable();
-        zoneDisplay.SetActive(false);
+        inputManager.inputController.MovementSelection.placePoint.performed -= OnPlacePoint;
+        inputManager.inputController.MovementSelection.cancel.performed -= OnCancel;
+        inputManager.inputController.MovementSelection.Disable();
+        if(zoneDisplay != null) zoneDisplay.SetActive(false);
     }
 
     private void Update()
     {
         if (zoneDisplay.activeSelf)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.PatrolMovementSelection.mousePosition.ReadValue<Vector2>());
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
             float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition) * 2;
             zoneDisplay.transform.localScale = new Vector2(radius, radius);
         }
@@ -64,10 +67,31 @@ public class PatrolMovementSelector : MonoBehaviour
     private void OnPlacePoint(InputAction.CallbackContext context)
     {
 
+        // No patrol -> No zone
+        if(!isPatrolOrder)
+        {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
+            float radius = nonPatrolOrderMinCircle + 0.5f * inputManager.selected_ships.Count;
+
+            foreach (ShipStateMachine stateMachine in inputManager.selected_ships)
+            {
+                stateMachine.mustPatrolArea = false;
+                stateMachine.targetArea = new Circle(new Vector2(mousePosition.x, mousePosition.y), radius);
+            }
+
+            // Close context
+            enabled = false;
+            return;
+        }
+
+        // Patrol -> two click to select a zone
+
         // First input -> Set the center of the zone
         if(!zoneDisplay.activeSelf)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.PatrolMovementSelection.mousePosition.ReadValue<Vector2>());
+            
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
+            Debug.Log(mousePosition);
             zoneDisplay.transform.position = new Vector3(mousePosition.x, mousePosition.y, zoneDisplay.transform.position.z);
             zoneDisplay.SetActive(true);
         }
@@ -75,13 +99,14 @@ public class PatrolMovementSelector : MonoBehaviour
         // Second input -> Set the radius of the zone
         else
         {
-            // Send the selected movement to the selected units
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.PatrolMovementSelection.mousePosition.ReadValue<Vector2>());
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
             float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition);
             zoneDisplay.transform.localScale = new Vector2(radius * 2, radius * 2);
 
+            // Send the selected movement to the selected units
             foreach (ShipStateMachine stateMachine in inputManager.selected_ships)
             {
+                stateMachine.mustPatrolArea = true;
                 stateMachine.targetArea = new Circle(zoneDisplay.transform.position, radius);
             }
 

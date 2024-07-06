@@ -24,14 +24,14 @@ public class InputManager : MonoBehaviour
 
 
     // -------------------------------- PARAMS
-    private PatrolMovementSelector patrolMovementSelector;
+    private MovementSelector movementSelector;
 
     private void Awake()
     {
         inputController = new InputController();
-        patrolMovementSelector = GetComponent<PatrolMovementSelector>();
+        movementSelector = GetComponent<MovementSelector>();
 
-        if (patrolMovementSelector == null)
+        if (movementSelector == null)
         {
             enabled = false;
             Debug.LogError($"{GetType().Name}({name}): no patrolMovementSelector found in gameObject.");
@@ -41,13 +41,13 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        patrolMovementSelector.enabled = true;
+        movementSelector.isPatrolOrder = false;
     }
 
     private void OnDisable()
     {
         // Reset all components
-        patrolMovementSelector.enabled = false;
+        movementSelector.enabled = false;
 
         // Garbage collection
         inputController.Disable();

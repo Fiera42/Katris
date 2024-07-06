@@ -141,6 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneDisplayPrefab: {fileID: 3405416024643915635, guid: 8454a0f686eee15419753e35401c2635, type: 3}
+  nonPatrolOrderMinCircle: 4
+  isPatrolOrder: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
