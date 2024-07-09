@@ -52,3 +52,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Environment
+    uniqueID: 2053375221
+    locked: 0
+  - name: SelectionCircles
+    uniqueID: 1470047423
+    locked: 0
+  - name: Ships
+    uniqueID: 1634614673
+    locked: 0

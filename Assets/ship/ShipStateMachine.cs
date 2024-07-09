@@ -10,7 +10,8 @@ public class ShipStateMachine : MonoBehaviour
 
     [HideInInspector] public Circle? targetArea = null;
     [HideInInspector] public bool mustPatrolArea;
-    [SerializeField] protected ShipData shipData;
+    [HideInInspector] public bool isSelected;
+    public ShipData shipData;
 
     // -------------------------------- PARAMS
     protected Rigidbody2D myBody;

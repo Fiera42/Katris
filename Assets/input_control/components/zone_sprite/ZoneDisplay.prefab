@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5618818488237376843}
   - component: {fileID: 5212718278029368523}
   m_Layer: 0
-  m_Name: Selection_circle
+  m_Name: ZoneDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

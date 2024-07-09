@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 public class Thrusters : MonoBehaviour {
 
     // -------------------------------- EDITABLE
-    [SerializeField] protected ShipData shipData;
+    public ShipData shipData;
 
     // -------------------------------- PARAMS
     protected Rigidbody2D myBody;

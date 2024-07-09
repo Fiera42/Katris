@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class Selection_circle : MonoBehaviour
+public class ZoneDisplay : MonoBehaviour
 {
     public float rotationSpeed;
     //public int subdivisions;

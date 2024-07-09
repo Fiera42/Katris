@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class Boid : MonoBehaviour
 {
     // -------------------------------- EDITABLE
-    [SerializeField] protected ShipData shipData;
+    public ShipData shipData;
 
     // -------------------------------- PARAMS
     protected SpriteRenderer myRenderer;
