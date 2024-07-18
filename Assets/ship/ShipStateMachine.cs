@@ -10,15 +10,15 @@ public class ShipStateMachine : MonoBehaviour
 
     [HideInInspector] public Circle? targetArea = null;
     [HideInInspector] public bool mustPatrolArea;
-    [HideInInspector] public bool isSelected;
     public ShipData shipData;
 
     // -------------------------------- PARAMS
     protected Rigidbody2D myBody;
+    public SelectionCircle SelectionCircle { get; protected set; }
 
     // -------------------------------- STATES
 
-    public int state { get; private set; } = IDLING;
+    public int State { get; private set; } = IDLING;
 
     public const int IDLING = 0;
     public const int PATROLING = 1;
@@ -28,10 +28,18 @@ public class ShipStateMachine : MonoBehaviour
     void Awake()
     {
         myBody = gameObject.GetComponent<Rigidbody2D>();
+        SelectionCircle = gameObject.GetComponentInChildren<SelectionCircle>(true);
 
         if (shipData == null)
         {
             Debug.LogError($"{GetType().Name}({name}): shipData is null.");
+            enabled = false;
+            return;
+        }
+
+        if (SelectionCircle == null)
+        {
+            Debug.LogError($"{GetType().Name}({name}): no selectionCircle found in child.");
             enabled = false;
             return;
         }
@@ -51,30 +59,30 @@ public class ShipStateMachine : MonoBehaviour
         // Declaration of stuff so the ide doesn't explode
         bool isInArea;
 
-        switch (state)
+        switch (State)
         {
             case IDLING:
-                if (targetArea == null) { state = IDLING; break; }
+                if (targetArea == null) { State = IDLING; break; }
                 isInArea = ((Circle)targetArea).radius > Vector2.Distance(transform.position, ((Circle)targetArea).center);
-                if (!isInArea) { state = MOVING_TO_TARGET_AREA; break; }
-                if (isInArea && !mustPatrolArea) { state = IDLING; targetArea = null; break; }
-                if (isInArea && mustPatrolArea) { state = PATROLING; break; }
+                if (!isInArea) { State = MOVING_TO_TARGET_AREA; break; }
+                if (isInArea && !mustPatrolArea) { State = IDLING; targetArea = null; break; }
+                if (isInArea && mustPatrolArea) { State = PATROLING; break; }
                 break;
 
             case PATROLING:
-                if (targetArea == null) { state = IDLING; break; }
+                if (targetArea == null) { State = IDLING; break; }
                 isInArea = ((Circle)targetArea).radius > Vector2.Distance(transform.position, ((Circle)targetArea).center);
-                if (!isInArea) { state = MOVING_TO_TARGET_AREA; break; }
-                if (isInArea && !mustPatrolArea) { state = IDLING; targetArea = null; break; }
-                if (isInArea && mustPatrolArea) { state = PATROLING; break; }
+                if (!isInArea) { State = MOVING_TO_TARGET_AREA; break; }
+                if (isInArea && !mustPatrolArea) { State = IDLING; targetArea = null; break; }
+                if (isInArea && mustPatrolArea) { State = PATROLING; break; }
                 break;
 
             case MOVING_TO_TARGET_AREA:
-                if (targetArea == null) { state = IDLING; break; }
+                if (targetArea == null) { State = IDLING; break; }
                 isInArea = ((Circle)targetArea).radius > Vector2.Distance(transform.position, ((Circle)targetArea).center);
-                if (!isInArea) { state = MOVING_TO_TARGET_AREA; break; }
-                if (isInArea && !mustPatrolArea) { state = IDLING; targetArea = null; break; }
-                if (isInArea && mustPatrolArea) { state = PATROLING; break; }
+                if (!isInArea) { State = MOVING_TO_TARGET_AREA; break; }
+                if (isInArea && !mustPatrolArea) { State = IDLING; targetArea = null; break; }
+                if (isInArea && mustPatrolArea) { State = PATROLING; break; }
                 break;
 
             default:

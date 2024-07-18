@@ -24,6 +24,102 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     ""name"": ""InputController"",
     ""maps"": [
         {
+            ""name"": ""General"",
+            ""id"": ""9f137a1f-9f52-409d-8599-e2d87327daaf"",
+            ""actions"": [
+                {
+                    ""name"": ""mousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""540d7d35-f3c5-4bcf-af70-8ba47dc64e5b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cb1fd542-54ec-43f1-961f-da362d1d770a"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""mousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""UnitSelection"",
+            ""id"": ""108d60b0-efcf-4856-990e-52926ad4f729"",
+            ""actions"": [
+                {
+                    ""name"": ""select"",
+                    ""type"": ""Button"",
+                    ""id"": ""e434f528-6276-4366-a95f-e24d186efaee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""add"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b2c3d53-0e48-4835-96db-d3dfee14fec0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""remove"",
+                    ""type"": ""Button"",
+                    ""id"": ""434b7536-3a6f-473b-9805-3190c129a3bd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3a7e0681-dabe-4cbd-816c-b4ea014599ec"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(pressPoint=0.01,behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c60450f2-f20d-4cd7-849f-83eea5597201"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""add"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a4e6445-cd69-4ce7-ae5a-29de79f163aa"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""remove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""MovementSelection"",
             ""id"": ""b587f8ae-80d1-4487-b90f-99d6968a2c7e"",
             ""actions"": [
@@ -44,15 +140,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""mousePosition"",
-                    ""type"": ""Value"",
-                    ""id"": ""1ad44262-b94e-48b1-aa6d-538fd1ce467b"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -77,28 +164,24 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""action"": ""cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8824b5f2-4096-4c59-88ec-ca13f75d5f18"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""mousePosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
+        // General
+        m_General = asset.FindActionMap("General", throwIfNotFound: true);
+        m_General_mousePosition = m_General.FindAction("mousePosition", throwIfNotFound: true);
+        // UnitSelection
+        m_UnitSelection = asset.FindActionMap("UnitSelection", throwIfNotFound: true);
+        m_UnitSelection_select = m_UnitSelection.FindAction("select", throwIfNotFound: true);
+        m_UnitSelection_add = m_UnitSelection.FindAction("add", throwIfNotFound: true);
+        m_UnitSelection_remove = m_UnitSelection.FindAction("remove", throwIfNotFound: true);
         // MovementSelection
         m_MovementSelection = asset.FindActionMap("MovementSelection", throwIfNotFound: true);
         m_MovementSelection_placePoint = m_MovementSelection.FindAction("placePoint", throwIfNotFound: true);
         m_MovementSelection_cancel = m_MovementSelection.FindAction("cancel", throwIfNotFound: true);
-        m_MovementSelection_mousePosition = m_MovementSelection.FindAction("mousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -157,19 +240,125 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
+    // General
+    private readonly InputActionMap m_General;
+    private List<IGeneralActions> m_GeneralActionsCallbackInterfaces = new List<IGeneralActions>();
+    private readonly InputAction m_General_mousePosition;
+    public struct GeneralActions
+    {
+        private @InputController m_Wrapper;
+        public GeneralActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @mousePosition => m_Wrapper.m_General_mousePosition;
+        public InputActionMap Get() { return m_Wrapper.m_General; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GeneralActions set) { return set.Get(); }
+        public void AddCallbacks(IGeneralActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GeneralActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GeneralActionsCallbackInterfaces.Add(instance);
+            @mousePosition.started += instance.OnMousePosition;
+            @mousePosition.performed += instance.OnMousePosition;
+            @mousePosition.canceled += instance.OnMousePosition;
+        }
+
+        private void UnregisterCallbacks(IGeneralActions instance)
+        {
+            @mousePosition.started -= instance.OnMousePosition;
+            @mousePosition.performed -= instance.OnMousePosition;
+            @mousePosition.canceled -= instance.OnMousePosition;
+        }
+
+        public void RemoveCallbacks(IGeneralActions instance)
+        {
+            if (m_Wrapper.m_GeneralActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IGeneralActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GeneralActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GeneralActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public GeneralActions @General => new GeneralActions(this);
+
+    // UnitSelection
+    private readonly InputActionMap m_UnitSelection;
+    private List<IUnitSelectionActions> m_UnitSelectionActionsCallbackInterfaces = new List<IUnitSelectionActions>();
+    private readonly InputAction m_UnitSelection_select;
+    private readonly InputAction m_UnitSelection_add;
+    private readonly InputAction m_UnitSelection_remove;
+    public struct UnitSelectionActions
+    {
+        private @InputController m_Wrapper;
+        public UnitSelectionActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @select => m_Wrapper.m_UnitSelection_select;
+        public InputAction @add => m_Wrapper.m_UnitSelection_add;
+        public InputAction @remove => m_Wrapper.m_UnitSelection_remove;
+        public InputActionMap Get() { return m_Wrapper.m_UnitSelection; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UnitSelectionActions set) { return set.Get(); }
+        public void AddCallbacks(IUnitSelectionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UnitSelectionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UnitSelectionActionsCallbackInterfaces.Add(instance);
+            @select.started += instance.OnSelect;
+            @select.performed += instance.OnSelect;
+            @select.canceled += instance.OnSelect;
+            @add.started += instance.OnAdd;
+            @add.performed += instance.OnAdd;
+            @add.canceled += instance.OnAdd;
+            @remove.started += instance.OnRemove;
+            @remove.performed += instance.OnRemove;
+            @remove.canceled += instance.OnRemove;
+        }
+
+        private void UnregisterCallbacks(IUnitSelectionActions instance)
+        {
+            @select.started -= instance.OnSelect;
+            @select.performed -= instance.OnSelect;
+            @select.canceled -= instance.OnSelect;
+            @add.started -= instance.OnAdd;
+            @add.performed -= instance.OnAdd;
+            @add.canceled -= instance.OnAdd;
+            @remove.started -= instance.OnRemove;
+            @remove.performed -= instance.OnRemove;
+            @remove.canceled -= instance.OnRemove;
+        }
+
+        public void RemoveCallbacks(IUnitSelectionActions instance)
+        {
+            if (m_Wrapper.m_UnitSelectionActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUnitSelectionActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UnitSelectionActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UnitSelectionActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UnitSelectionActions @UnitSelection => new UnitSelectionActions(this);
+
     // MovementSelection
     private readonly InputActionMap m_MovementSelection;
     private List<IMovementSelectionActions> m_MovementSelectionActionsCallbackInterfaces = new List<IMovementSelectionActions>();
     private readonly InputAction m_MovementSelection_placePoint;
     private readonly InputAction m_MovementSelection_cancel;
-    private readonly InputAction m_MovementSelection_mousePosition;
     public struct MovementSelectionActions
     {
         private @InputController m_Wrapper;
         public MovementSelectionActions(@InputController wrapper) { m_Wrapper = wrapper; }
         public InputAction @placePoint => m_Wrapper.m_MovementSelection_placePoint;
         public InputAction @cancel => m_Wrapper.m_MovementSelection_cancel;
-        public InputAction @mousePosition => m_Wrapper.m_MovementSelection_mousePosition;
         public InputActionMap Get() { return m_Wrapper.m_MovementSelection; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -185,9 +374,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @cancel.started += instance.OnCancel;
             @cancel.performed += instance.OnCancel;
             @cancel.canceled += instance.OnCancel;
-            @mousePosition.started += instance.OnMousePosition;
-            @mousePosition.performed += instance.OnMousePosition;
-            @mousePosition.canceled += instance.OnMousePosition;
         }
 
         private void UnregisterCallbacks(IMovementSelectionActions instance)
@@ -198,9 +384,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @cancel.started -= instance.OnCancel;
             @cancel.performed -= instance.OnCancel;
             @cancel.canceled -= instance.OnCancel;
-            @mousePosition.started -= instance.OnMousePosition;
-            @mousePosition.performed -= instance.OnMousePosition;
-            @mousePosition.canceled -= instance.OnMousePosition;
         }
 
         public void RemoveCallbacks(IMovementSelectionActions instance)
@@ -218,10 +401,19 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         }
     }
     public MovementSelectionActions @MovementSelection => new MovementSelectionActions(this);
+    public interface IGeneralActions
+    {
+        void OnMousePosition(InputAction.CallbackContext context);
+    }
+    public interface IUnitSelectionActions
+    {
+        void OnSelect(InputAction.CallbackContext context);
+        void OnAdd(InputAction.CallbackContext context);
+        void OnRemove(InputAction.CallbackContext context);
+    }
     public interface IMovementSelectionActions
     {
         void OnPlacePoint(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
-        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

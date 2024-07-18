@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8641910903707666180
 Transform:
   m_ObjectHideFlags: 0
@@ -109,9 +109,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6033034724768940549}
   - component: {fileID: 885434757591567110}
+  - component: {fileID: 470233946827325238}
   - component: {fileID: 1731739118734677411}
   - component: {fileID: 7407765063880688503}
-  - component: {fileID: 470233946827325238}
   - component: {fileID: 749366828795138281}
   - component: {fileID: 2748627216045854558}
   m_Layer: 8
@@ -129,14 +129,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6863087766488659163}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.5200282, w: 0.8541491}
-  m_LocalPosition: {x: -9, y: 6.6, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8641910903707666180}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -62.668}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &885434757591567110
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -189,6 +189,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &470233946827325238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6863087766488659163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf3e10556513ec4e89b5cf22d60fcc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mustPatrolArea: 0
+  shipData: {fileID: 11400000, guid: aba8902d18d77874c94a9d2991d37e37, type: 2}
 --- !u!114 &1731739118734677411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,21 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0213f7d3937fb2a4d86b21b5adefb494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipData: {fileID: 11400000, guid: aba8902d18d77874c94a9d2991d37e37, type: 2}
---- !u!114 &470233946827325238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6863087766488659163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf3e10556513ec4e89b5cf22d60fcc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mustPatrolArea: 0
-  isSelected: 0
   shipData: {fileID: 11400000, guid: aba8902d18d77874c94a9d2991d37e37, type: 2}
 --- !u!50 &749366828795138281
 Rigidbody2D:

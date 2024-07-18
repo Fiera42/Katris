@@ -2,6 +2,102 @@
     "name": "InputController",
     "maps": [
         {
+            "name": "General",
+            "id": "9f137a1f-9f52-409d-8599-e2d87327daaf",
+            "actions": [
+                {
+                    "name": "mousePosition",
+                    "type": "Value",
+                    "id": "540d7d35-f3c5-4bcf-af70-8ba47dc64e5b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cb1fd542-54ec-43f1-961f-da362d1d770a",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "mousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UnitSelection",
+            "id": "108d60b0-efcf-4856-990e-52926ad4f729",
+            "actions": [
+                {
+                    "name": "select",
+                    "type": "Button",
+                    "id": "e434f528-6276-4366-a95f-e24d186efaee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "add",
+                    "type": "Button",
+                    "id": "3b2c3d53-0e48-4835-96db-d3dfee14fec0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "remove",
+                    "type": "Button",
+                    "id": "434b7536-3a6f-473b-9805-3190c129a3bd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3a7e0681-dabe-4cbd-816c-b4ea014599ec",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(pressPoint=0.01,behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c60450f2-f20d-4cd7-849f-83eea5597201",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "add",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a4e6445-cd69-4ce7-ae5a-29de79f163aa",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "remove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "MovementSelection",
             "id": "b587f8ae-80d1-4487-b90f-99d6968a2c7e",
             "actions": [
@@ -22,15 +118,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "mousePosition",
-                    "type": "Value",
-                    "id": "1ad44262-b94e-48b1-aa6d-538fd1ce467b",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -53,17 +140,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "cancel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8824b5f2-4096-4c59-88ec-ca13f75d5f18",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "mousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

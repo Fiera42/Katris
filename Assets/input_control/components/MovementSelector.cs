@@ -34,34 +34,33 @@ public class MovementSelector : MonoBehaviour
             return;
         }
 
-        zoneDisplay = Instantiate(zoneDisplayPrefab, Vector3.zero, Quaternion.identity);
+        zoneDisplay = Instantiate(zoneDisplayPrefab, transform);
         zoneDisplay.SetActive(false);
     }
 
     private void OnEnable()
     {
+        zoneDisplay.SetActive(false);
         inputManager.inputController.MovementSelection.Enable();
         inputManager.inputController.MovementSelection.placePoint.performed += OnPlacePoint;
         inputManager.inputController.MovementSelection.cancel.performed += OnCancel;
-        zoneDisplay.SetActive(false);
+        
     }
 
     private void OnDisable()
     {
         inputManager.inputController.MovementSelection.placePoint.performed -= OnPlacePoint;
         inputManager.inputController.MovementSelection.cancel.performed -= OnCancel;
+        inputManager.inputController.General.mousePosition.performed -= UpdateZoneRadius;
         inputManager.inputController.MovementSelection.Disable();
         if(zoneDisplay != null) zoneDisplay.SetActive(false);
     }
 
-    private void Update()
+    private void UpdateZoneRadius(InputAction.CallbackContext context)
     {
-        if (zoneDisplay.activeSelf)
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
-            float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition) * 2;
-            zoneDisplay.transform.localScale = new Vector2(radius, radius);
-        }
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.General.mousePosition.ReadValue<Vector2>());
+        float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition) * 2;
+        zoneDisplay.transform.localScale = new Vector2(radius, radius);
     }
 
     private void OnPlacePoint(InputAction.CallbackContext context)
@@ -70,13 +69,16 @@ public class MovementSelector : MonoBehaviour
         // No patrol -> No zone
         if(!isPatrolOrder)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.General.mousePosition.ReadValue<Vector2>());
             float radius = nonPatrolOrderMinCircle + 0.5f * inputManager.selected_ships.Count;
 
-            foreach (ShipStateMachine stateMachine in inputManager.selected_ships)
+            foreach (ShipStateMachine ship in inputManager.selected_ships)
             {
-                stateMachine.mustPatrolArea = false;
-                stateMachine.targetArea = new Circle(new Vector2(mousePosition.x, mousePosition.y), radius);
+                if (ship.CompareTag("Player 1"))
+                {
+                    ship.mustPatrolArea = false;
+                    ship.targetArea = new Circle(new Vector2(mousePosition.x, mousePosition.y), radius);
+                } 
             }
 
             // Close context
@@ -89,25 +91,28 @@ public class MovementSelector : MonoBehaviour
         // First input -> Set the center of the zone
         if(!zoneDisplay.activeSelf)
         {
-            
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
-            Debug.Log(mousePosition);
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.General.mousePosition.ReadValue<Vector2>());
             zoneDisplay.transform.position = new Vector3(mousePosition.x, mousePosition.y, zoneDisplay.transform.position.z);
+            zoneDisplay.transform.localScale = new Vector2(0, 0);
             zoneDisplay.SetActive(true);
+            inputManager.inputController.General.mousePosition.performed += UpdateZoneRadius;
         }
 
         // Second input -> Set the radius of the zone
         else
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.MovementSelection.mousePosition.ReadValue<Vector2>());
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.General.mousePosition.ReadValue<Vector2>());
             float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition);
             zoneDisplay.transform.localScale = new Vector2(radius * 2, radius * 2);
 
             // Send the selected movement to the selected units
-            foreach (ShipStateMachine stateMachine in inputManager.selected_ships)
+            foreach (ShipStateMachine ship in inputManager.selected_ships)
             {
-                stateMachine.mustPatrolArea = true;
-                stateMachine.targetArea = new Circle(zoneDisplay.transform.position, radius);
+                if (ship.CompareTag("Player 1"))
+                {
+                    ship.mustPatrolArea = true;
+                    ship.targetArea = new Circle(zoneDisplay.transform.position, radius);
+                }
             }
 
             // Close context

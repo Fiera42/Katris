@@ -130,7 +130,7 @@ public class Boid : MonoBehaviour
         // TODO
 
         // ------- Ship control
-        switch (myStateMachine.state)
+        switch (myStateMachine.State)
         {
             case ShipStateMachine.IDLING: // --------------------------------------------------------------------------------------
 
@@ -164,7 +164,7 @@ public class Boid : MonoBehaviour
                 }
                 else
                 {
-                    myThruster.target_velocity = transform.up * shipData.patrolSpeed;
+                    myThruster.target_velocity = transform.up * (((Circle)myStateMachine.targetArea).radius * 2) / shipData.patrolDuration;
                     myThruster.target_orientation = null;
                 }
 
@@ -229,7 +229,7 @@ public class Boid : MonoBehaviour
                 break;
 
             default: // --------------------------------------------------------------------------------------
-                Debug.LogError($"{GetType().Name}({name}): State {myStateMachine.state} is not implemented");
+                Debug.LogError($"{GetType().Name}({name}): State {myStateMachine.State} is not implemented");
                 break;
         }
 
