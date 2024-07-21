@@ -62,7 +62,6 @@ public class MovementSelector : MonoBehaviour
         float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition) * 2;
         zoneDisplay.transform.localScale = new Vector2(radius, radius);
     }
-
     private void OnPlacePoint(InputAction.CallbackContext context)
     {
 
@@ -81,8 +80,7 @@ public class MovementSelector : MonoBehaviour
                 } 
             }
 
-            // Close context
-            enabled = false;
+            inputManager.ResetManager();
             return;
         }
 
@@ -103,6 +101,12 @@ public class MovementSelector : MonoBehaviour
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(inputManager.inputController.General.mousePosition.ReadValue<Vector2>());
             float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition);
+            
+            if(radius < 0.5f)
+            {
+                return;
+            }
+
             zoneDisplay.transform.localScale = new Vector2(radius * 2, radius * 2);
 
             // Send the selected movement to the selected units
@@ -115,13 +119,12 @@ public class MovementSelector : MonoBehaviour
                 }
             }
 
-            // Close context
-            enabled = false;
+            inputManager.ResetManager();
         }
     }
 
     private void OnCancel(InputAction.CallbackContext context)
     {
-        enabled = false;
+        inputManager.ResetManager();
     }
 }

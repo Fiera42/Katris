@@ -125,7 +125,18 @@
                     "name": "",
                     "id": "46a1de04-9694-475f-9c73-7c47d73d4dbe",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Press(pressPoint=0.01),SlowTap(duration=0.3)",
+                    "interactions": "Press(pressPoint=0.01)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "placePoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6e7cddc-cf6c-4eb9-8406-ed0aa751dc7e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "SlowTap(duration=0.3)",
                     "processors": "",
                     "groups": "",
                     "action": "placePoint",
@@ -140,6 +151,94 @@
                     "processors": "",
                     "groups": "",
                     "action": "cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ActionWheelShortcuts",
+            "id": "c3cad5f6-14c8-4f37-b3c5-978f3edda4b1",
+            "actions": [
+                {
+                    "name": "moveInteract",
+                    "type": "Button",
+                    "id": "71abfbbf-4b2b-4343-9d88-295b42db610e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "patrol",
+                    "type": "Button",
+                    "id": "87ef5019-5d7b-4fe8-95b2-f7dd22620585",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "scout",
+                    "type": "Button",
+                    "id": "140a6466-9607-4af5-a758-99867add7608",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "attack",
+                    "type": "Button",
+                    "id": "e70170e0-bab2-4fc1-8b0b-dfcfe1f345be",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5df018ba-b089-4c81-97ae-df24421198bb",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "moveInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e418307-a6ee-4ff4-b1eb-aa7501d301a1",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "patrol",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8999bde-60dc-4463-806b-92e15e775518",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "scout",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "555fa15a-327a-4410-b90f-b1f33e9ab27e",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

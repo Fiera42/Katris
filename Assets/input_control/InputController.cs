@@ -147,7 +147,18 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""46a1de04-9694-475f-9c73-7c47d73d4dbe"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press(pressPoint=0.01),SlowTap(duration=0.3)"",
+                    ""interactions"": ""Press(pressPoint=0.01)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""placePoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6e7cddc-cf6c-4eb9-8406-ed0aa751dc7e"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""SlowTap(duration=0.3)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""placePoint"",
@@ -162,6 +173,94 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""ActionWheelShortcuts"",
+            ""id"": ""c3cad5f6-14c8-4f37-b3c5-978f3edda4b1"",
+            ""actions"": [
+                {
+                    ""name"": ""moveInteract"",
+                    ""type"": ""Button"",
+                    ""id"": ""71abfbbf-4b2b-4343-9d88-295b42db610e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""patrol"",
+                    ""type"": ""Button"",
+                    ""id"": ""87ef5019-5d7b-4fe8-95b2-f7dd22620585"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""scout"",
+                    ""type"": ""Button"",
+                    ""id"": ""140a6466-9607-4af5-a758-99867add7608"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""e70170e0-bab2-4fc1-8b0b-dfcfe1f345be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5df018ba-b089-4c81-97ae-df24421198bb"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e418307-a6ee-4ff4-b1eb-aa7501d301a1"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""patrol"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8999bde-60dc-4463-806b-92e15e775518"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""scout"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""555fa15a-327a-4410-b90f-b1f33e9ab27e"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -182,6 +281,12 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         m_MovementSelection = asset.FindActionMap("MovementSelection", throwIfNotFound: true);
         m_MovementSelection_placePoint = m_MovementSelection.FindAction("placePoint", throwIfNotFound: true);
         m_MovementSelection_cancel = m_MovementSelection.FindAction("cancel", throwIfNotFound: true);
+        // ActionWheelShortcuts
+        m_ActionWheelShortcuts = asset.FindActionMap("ActionWheelShortcuts", throwIfNotFound: true);
+        m_ActionWheelShortcuts_moveInteract = m_ActionWheelShortcuts.FindAction("moveInteract", throwIfNotFound: true);
+        m_ActionWheelShortcuts_patrol = m_ActionWheelShortcuts.FindAction("patrol", throwIfNotFound: true);
+        m_ActionWheelShortcuts_scout = m_ActionWheelShortcuts.FindAction("scout", throwIfNotFound: true);
+        m_ActionWheelShortcuts_attack = m_ActionWheelShortcuts.FindAction("attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -401,6 +506,76 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         }
     }
     public MovementSelectionActions @MovementSelection => new MovementSelectionActions(this);
+
+    // ActionWheelShortcuts
+    private readonly InputActionMap m_ActionWheelShortcuts;
+    private List<IActionWheelShortcutsActions> m_ActionWheelShortcutsActionsCallbackInterfaces = new List<IActionWheelShortcutsActions>();
+    private readonly InputAction m_ActionWheelShortcuts_moveInteract;
+    private readonly InputAction m_ActionWheelShortcuts_patrol;
+    private readonly InputAction m_ActionWheelShortcuts_scout;
+    private readonly InputAction m_ActionWheelShortcuts_attack;
+    public struct ActionWheelShortcutsActions
+    {
+        private @InputController m_Wrapper;
+        public ActionWheelShortcutsActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @moveInteract => m_Wrapper.m_ActionWheelShortcuts_moveInteract;
+        public InputAction @patrol => m_Wrapper.m_ActionWheelShortcuts_patrol;
+        public InputAction @scout => m_Wrapper.m_ActionWheelShortcuts_scout;
+        public InputAction @attack => m_Wrapper.m_ActionWheelShortcuts_attack;
+        public InputActionMap Get() { return m_Wrapper.m_ActionWheelShortcuts; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ActionWheelShortcutsActions set) { return set.Get(); }
+        public void AddCallbacks(IActionWheelShortcutsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ActionWheelShortcutsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ActionWheelShortcutsActionsCallbackInterfaces.Add(instance);
+            @moveInteract.started += instance.OnMoveInteract;
+            @moveInteract.performed += instance.OnMoveInteract;
+            @moveInteract.canceled += instance.OnMoveInteract;
+            @patrol.started += instance.OnPatrol;
+            @patrol.performed += instance.OnPatrol;
+            @patrol.canceled += instance.OnPatrol;
+            @scout.started += instance.OnScout;
+            @scout.performed += instance.OnScout;
+            @scout.canceled += instance.OnScout;
+            @attack.started += instance.OnAttack;
+            @attack.performed += instance.OnAttack;
+            @attack.canceled += instance.OnAttack;
+        }
+
+        private void UnregisterCallbacks(IActionWheelShortcutsActions instance)
+        {
+            @moveInteract.started -= instance.OnMoveInteract;
+            @moveInteract.performed -= instance.OnMoveInteract;
+            @moveInteract.canceled -= instance.OnMoveInteract;
+            @patrol.started -= instance.OnPatrol;
+            @patrol.performed -= instance.OnPatrol;
+            @patrol.canceled -= instance.OnPatrol;
+            @scout.started -= instance.OnScout;
+            @scout.performed -= instance.OnScout;
+            @scout.canceled -= instance.OnScout;
+            @attack.started -= instance.OnAttack;
+            @attack.performed -= instance.OnAttack;
+            @attack.canceled -= instance.OnAttack;
+        }
+
+        public void RemoveCallbacks(IActionWheelShortcutsActions instance)
+        {
+            if (m_Wrapper.m_ActionWheelShortcutsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IActionWheelShortcutsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ActionWheelShortcutsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ActionWheelShortcutsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ActionWheelShortcutsActions @ActionWheelShortcuts => new ActionWheelShortcutsActions(this);
     public interface IGeneralActions
     {
         void OnMousePosition(InputAction.CallbackContext context);
@@ -415,5 +590,12 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     {
         void OnPlacePoint(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+    }
+    public interface IActionWheelShortcutsActions
+    {
+        void OnMoveInteract(InputAction.CallbackContext context);
+        void OnPatrol(InputAction.CallbackContext context);
+        void OnScout(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

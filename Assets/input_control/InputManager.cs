@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
@@ -20,18 +21,21 @@ public class InputManager : MonoBehaviour
     }
 
     // -------------------------------- PUBLIC
-    public List<ShipStateMachine> selected_ships = new();
-
+    [HideInInspector] public List<ShipStateMachine> selected_ships = new();
+    public bool updateActionWheelPosition;
+    public bool freezeActionWheelOnMouseOver;
 
     // -------------------------------- PARAMS
     private MovementSelector movementSelector;
     private UnitSelector unitSelector;
+    private ActionWheel actionWheelScript;
 
     private void Awake()
     {
         inputController = new InputController();
         movementSelector = GetComponent<MovementSelector>();
         unitSelector = GetComponent<UnitSelector>();
+        actionWheelScript = GetComponent<ActionWheel>();
 
         if (movementSelector == null)
         {
@@ -46,6 +50,13 @@ public class InputManager : MonoBehaviour
             Debug.LogError($"{GetType().Name}({name}): no unitSelector found in gameObject.");
             return;
         }
+
+        if (actionWheelScript == null)
+        {
+            enabled = false;
+            Debug.LogError($"{GetType().Name}({name}): no actionWheel found in gameObject.");
+            return;
+        }
     }
 
     private void OnEnable()
@@ -55,11 +66,129 @@ public class InputManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // Reset all components
-        movementSelector.enabled = false;
-        unitSelector.enabled = false;
+        ResetManager();
 
         // Garbage collection
         inputController.Disable();
+
+        foreach (ShipStateMachine ship in selected_ships)
+        {
+            if (ship != null) ship.SelectionCircle.gameObject.SetActive(false);
+        }
+        selected_ships.Clear();
+    }
+
+    public void Update()
+    {
+        if(updateActionWheelPosition && actionWheelScript.enabled)
+        {
+            if(freezeActionWheelOnMouseOver)
+            {
+                if(!actionWheelScript.wheelButtons.isHover)
+                {
+                    UpdateActionWheel();
+                }
+            }
+            else
+            {
+                UpdateActionWheel();
+            }
+        }
+    }
+
+    public void ResetManager()
+    {
+        // Garbage collection
+        inputController.Disable();
+        inputController.General.Enable();
+
+        foreach (ShipStateMachine ship in selected_ships.ToArray())
+        {
+            if(ship == null)
+            {
+                selected_ships.Remove(ship);
+            }
+        }
+
+        // Reset all components
+        movementSelector.enabled = false;
+        unitSelector.enabled = true;
+        actionWheelScript.enabled = false;
+
+        UpdateActionWheel();
+    }
+
+    public void UpdateActionWheel()
+    {
+        if (selected_ships.Count == 0)
+        {
+            HideActionWheel();
+        }
+
+        else
+        {
+            ShowActionWheel();
+        }
+    }
+
+    public void ShowActionWheel()
+    {
+        if (selected_ships.Count == 0) {
+            return;
+        }
+
+        Vector2 center = Vector2.zero;
+        int allyShipCount = 0;
+        foreach (ShipStateMachine ship in selected_ships)
+        {
+            if(ship.CompareTag("Player 1"))
+            {
+                center += (Vector2)ship.transform.position;
+                allyShipCount++;
+            }
+        }
+
+        if (allyShipCount < 1)
+        {
+            return;
+        }
+
+        center /= allyShipCount;
+        center = Camera.main.WorldToScreenPoint(center);
+        actionWheelScript.ActionWheelObject.position = center;
+        actionWheelScript.enabled = true;
+    }
+
+    public void HideActionWheel()
+    {
+        actionWheelScript.enabled = false;
+    }
+
+    public void MoveOrder()
+    {
+        ResetManager();
+        unitSelector.enabled = false;
+        HideActionWheel();
+        movementSelector.isPatrolOrder = false;
+        movementSelector.enabled = true;
+    }
+
+    public void PatrolOrder()
+    {
+        ResetManager();
+        unitSelector.enabled = false;
+        HideActionWheel();
+        movementSelector.isPatrolOrder = true;
+        movementSelector.enabled = true;
+    }
+
+    public void ScoutOrder()
+    {
+        Debug.Log("scout");
+    }
+
+    public void AttackOrder()
+    {
+        Debug.Log("attack");
     }
 }

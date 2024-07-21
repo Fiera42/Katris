@@ -17,7 +17,7 @@ public class ShipData : ScriptableObject
     public float main_thruster_force;
     public float rotation_thruster_force;
     public float rcs_thruster_force;
-    [HideInInspector] public float patrolDuration = 10;
+    public static float patrolDuration = 1;
 
     public float rotation_duration
     {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class UnitSelector : MonoBehaviour
@@ -17,6 +18,7 @@ public class UnitSelector : MonoBehaviour
 
     // -------------------------------- VARIABLE
     private Vector2 selectionStartPosition;
+    private bool isPointerOverUI;
 
     private void Awake()
     {
@@ -53,7 +55,6 @@ public class UnitSelector : MonoBehaviour
         selectionBox.gameObject.SetActive(false);
         inputManager.inputController.UnitSelection.Enable();
         inputManager.inputController.UnitSelection.select.started += OnStartSelection;
-        inputManager.inputController.UnitSelection.select.canceled += OnStopSelection;
     }
 
     private void OnDisable()
@@ -65,18 +66,32 @@ public class UnitSelector : MonoBehaviour
         if (selectionBox != null) selectionBox.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        isPointerOverUI = EventSystem.current.IsPointerOverGameObject();
+    }
+
     private void OnStartSelection(InputAction.CallbackContext context)
     {
+        if(isPointerOverUI)
+        {
+            return;
+        }
+
         selectionStartPosition = inputManager.inputController.General.mousePosition.ReadValue<Vector2>();
+        inputManager.inputController.UnitSelection.select.canceled += OnStopSelection;
         inputManager.inputController.General.mousePosition.performed += UpdateSelectionBox;
         UpdateSelectionBox(new InputAction.CallbackContext());
         selectionBox.gameObject.SetActive(true);
+        inputManager.HideActionWheel();
     }
 
     private void OnStopSelection(InputAction.CallbackContext context)
     {
+        inputManager.inputController.UnitSelection.select.canceled -= OnStopSelection;
         inputManager.inputController.General.mousePosition.performed -= UpdateSelectionBox;
         selectionBox.gameObject.SetActive(false);
+        inputManager.UpdateActionWheel();
     }
 
     private void UpdateSelectionBox(InputAction.CallbackContext context)

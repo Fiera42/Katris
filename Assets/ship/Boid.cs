@@ -164,8 +164,20 @@ public class Boid : MonoBehaviour
                 }
                 else
                 {
-                    myThruster.target_velocity = transform.up * (((Circle)myStateMachine.targetArea).radius * 2) / shipData.patrolDuration;
-                    myThruster.target_orientation = null;
+                    /*
+                    float max_patrolSpeed = (((Circle)myStateMachine.targetArea).radius * 2) / ShipData.patrolDuration;
+                    float velocity_magnitude = myBody.velocity.magnitude / max_patrolSpeed;
+
+                    Vector2 center_vector = (((Circle)myStateMachine.targetArea).center - (Vector2)transform.position).normalized * (1 - velocity_magnitude);
+                    Vector2 up_vector = (Vector2)transform.up * velocity_magnitude;
+
+                    myThruster.target_velocity = (center_vector + up_vector).normalized * max_patrolSpeed;
+                    myThruster.target_orientation = transform.up;
+                    */
+
+                    float max_patrolSpeed = (((Circle)myStateMachine.targetArea).radius * 2) / ShipData.patrolDuration;
+                    myThruster.target_velocity = ((Vector2)transform.up + myBody.velocity.normalized).normalized * max_patrolSpeed;
+                    myThruster.target_orientation = transform.up;
                 }
 
                 break;

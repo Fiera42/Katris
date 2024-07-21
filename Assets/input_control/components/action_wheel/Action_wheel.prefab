@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3180635990607184111}
   - component: {fileID: 1902702698343200263}
+  - component: {fileID: 3682356597606748857}
   m_Layer: 5
   m_Name: Action_wheel
   m_TagString: Untagged
@@ -29,10 +30,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2675076744147357386}
   - {fileID: 5933049918740081698}
   - {fileID: 4024808342893397686}
   - {fileID: 6056113828768025495}
+  - {fileID: 2675076744147357386}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -48,6 +49,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3232361238842761495}
   m_CullTransparentMesh: 1
+--- !u!114 &3682356597606748857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3232361238842761495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa55af7662438eb4891918144b395afc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveButton: {fileID: 3590802941609610935}
+  patrolButton: {fileID: 8306089764401895017}
+  scoutButton: {fileID: 3241643347244583084}
+  attackButton: {fileID: 4368524999666124517}
 --- !u!1 &3968937839691361018
 GameObject:
   m_ObjectHideFlags: 0
