@@ -24,6 +24,7 @@ public class InputManager : MonoBehaviour
     [HideInInspector] public List<ShipStateMachine> selected_ships = new();
     public bool updateActionWheelPosition;
     public bool freezeActionWheelOnMouseOver;
+    public bool keepActionWheelOnScreen;
 
     // -------------------------------- PARAMS
     private MovementSelector movementSelector;
@@ -138,11 +139,19 @@ public class InputManager : MonoBehaviour
         }
 
         Vector2 center = Vector2.zero;
+        float biggestY = float.MinValue;
         int allyShipCount = 0;
+        float colliderOffset = 0;
         foreach (ShipStateMachine ship in selected_ships)
         {
             if(ship.CompareTag("Player 1"))
             {
+                if(ship.transform.position.y > biggestY)
+                {
+                    colliderOffset = Mathf.Max(ship.shipData.colliderSize.x, ship.shipData.colliderSize.y);
+                    biggestY = ship.transform.position.y;
+                }
+
                 center += (Vector2)ship.transform.position;
                 allyShipCount++;
             }
@@ -154,7 +163,21 @@ public class InputManager : MonoBehaviour
         }
 
         center /= allyShipCount;
+        center.y = biggestY;
+        center.y += colliderOffset;
         center = Camera.main.WorldToScreenPoint(center);
+        center.y += actionWheelScript.ActionWheelObject.sizeDelta.y / 2;
+
+        if(keepActionWheelOnScreen)
+        {
+            float radius = actionWheelScript.ActionWheelObject.sizeDelta.x / 2;
+
+            if (center.x + radius > Screen.width) center.x = Screen.width - radius;
+            if (center.x - radius < 0) center.x = radius;
+            if (center.y + radius > Screen.height) center.y = Screen.height - radius;
+            if (center.y - radius < 0) center.y = radius;
+        }
+
         actionWheelScript.ActionWheelObject.position = center;
         actionWheelScript.enabled = true;
     }
