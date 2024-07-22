@@ -12,6 +12,7 @@ public class WheelButtons : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Button patrolButton;
     public Button scoutButton;
     public Button attackButton;
+    public Button centerCameraButton;
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {

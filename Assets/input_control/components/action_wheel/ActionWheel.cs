@@ -67,6 +67,7 @@ public class ActionWheel : MonoBehaviour
         wheelButtons.patrolButton.onClick.AddListener(() => { OnPatrolPressed(new InputAction.CallbackContext()); });
         wheelButtons.scoutButton.onClick.AddListener(() => { OnScoutPressed(new InputAction.CallbackContext()); });
         wheelButtons.attackButton.onClick.AddListener(() => { OnAttackPressed(new InputAction.CallbackContext()); });
+        wheelButtons.centerCameraButton.onClick.AddListener(() => { OnCenterCameraOnSelectionPressed(new InputAction.CallbackContext()); });
     }
 
     private void OnDisable()
@@ -79,6 +80,7 @@ public class ActionWheel : MonoBehaviour
         wheelButtons.patrolButton.onClick.RemoveAllListeners();
         wheelButtons.scoutButton.onClick.RemoveAllListeners();
         wheelButtons.attackButton.onClick.RemoveAllListeners();
+        wheelButtons.centerCameraButton.onClick.RemoveAllListeners();
         inputManager.inputController.ActionWheelShortcuts.Disable();
         if (ActionWheelObject != null) ActionWheelObject.gameObject.SetActive(false);
     }
@@ -101,5 +103,22 @@ public class ActionWheel : MonoBehaviour
     public void OnAttackPressed(InputAction.CallbackContext context)
     {
         inputManager.AttackOrder();
+    }
+
+    public void OnCenterCameraOnSelectionPressed(InputAction.CallbackContext context)
+    {
+        if (inputManager.selected_ships.Count == 0)
+        {
+            return;
+        }
+
+        Vector2 center = Vector2.zero;
+        foreach (ShipStateMachine ship in inputManager.selected_ships)
+        {
+            center += (Vector2)ship.transform.position;
+        }
+
+        center /= inputManager.selected_ships.Count;
+        Camera.main.transform.position = new Vector3(center.x, center.y, Camera.main.transform.position.z);
     }
 }
