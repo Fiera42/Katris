@@ -316,7 +316,7 @@ public class Boid : MonoBehaviour
     protected float GetBreakDistance()
     {
         // break offset = time to turn in the right direction + time to compensate angular velocity (hack)
-        float break_offset = (shipData.rotation_duration) + (Mathf.Abs(myBody.angularVelocity) / (shipData.rotation_thruster_force + 1e-6f));
+        float break_offset = (shipData.Rotation_duration) + (Mathf.Abs(myBody.angularVelocity) / (shipData.rotation_thruster_force + 1e-6f));
 
         // break distance = distance passed while turning + distance passed while breaking
         float break_distance = (break_offset * myBody.velocity.magnitude) + ((myBody.velocity.magnitude * myBody.velocity.magnitude) / (2 * (shipData.main_thruster_force + shipData.rcs_thruster_force + 1e-6f)));

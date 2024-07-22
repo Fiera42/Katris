@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class UnitSelector : MonoBehaviour
 {
@@ -18,7 +20,11 @@ public class UnitSelector : MonoBehaviour
 
     // -------------------------------- VARIABLE
     private Vector2 selectionStartPosition;
+    private float selectionStartTime;
+    private Vector2 multitapStartPosition;
+    private float multiTapStartTime;
     private bool isPointerOverUI;
+    private IEnumerator WaitBeforeShowingActionWheel_coroutine;
 
     private void Awake()
     {
@@ -78,6 +84,7 @@ public class UnitSelector : MonoBehaviour
             return;
         }
 
+        selectionStartTime = Time.time;
         selectionStartPosition = inputManager.inputController.General.mousePosition.ReadValue<Vector2>();
         inputManager.inputController.UnitSelection.select.canceled += OnStopSelection;
         inputManager.inputController.General.mousePosition.performed += UpdateSelectionBox;
@@ -91,7 +98,60 @@ public class UnitSelector : MonoBehaviour
         inputManager.inputController.UnitSelection.select.canceled -= OnStopSelection;
         inputManager.inputController.General.mousePosition.performed -= UpdateSelectionBox;
         selectionBox.gameObject.SetActive(false);
+
+        Stop_ShowActionWheelAfterMultiTapDelay_Coroutine();
+
+        // If the mouse travelled too much, do not bother with multitap
+        Vector2 mousePosition = inputManager.inputController.General.mousePosition.ReadValue<Vector2>();
+
+        if (Vector2.Distance(mousePosition, selectionStartPosition) > 10)
+        {
+            inputManager.UpdateActionWheel();
+            WaitBeforeShowingActionWheel_coroutine = null;
+        }
+        else
+        {
+            if(Vector2.Distance(mousePosition, multitapStartPosition) <= 10 && (Time.time - multiTapStartTime) < InputSystem.settings.multiTapDelayTime)
+            {
+                multiTapStartTime = 0;
+                multitapStartPosition = new Vector2(-10000, -10000);
+                OnSelectAllShipOfType(context);
+            }
+            else
+            {
+                multitapStartPosition = selectionStartPosition;
+                multiTapStartTime = selectionStartTime;
+                WaitBeforeShowingActionWheel_coroutine = WaitBeforeShowingActionWheel();
+                StartCoroutine(WaitBeforeShowingActionWheel_coroutine);
+            }
+        }
+    }
+
+    private void Stop_ShowActionWheelAfterMultiTapDelay_Coroutine()
+    {
+        if (WaitBeforeShowingActionWheel_coroutine != null)
+        {
+            StopCoroutine(WaitBeforeShowingActionWheel_coroutine);
+            WaitBeforeShowingActionWheel_coroutine = null;
+        }
+    }
+
+    public IEnumerator WaitBeforeShowingActionWheel()
+    {
+        yield return new WaitForSeconds(InputSystem.settings.multiTapDelayTime - (Time.time - selectionStartTime));
         inputManager.UpdateActionWheel();
+        WaitBeforeShowingActionWheel_coroutine = null;
+    }
+
+    private void OnSelectAllShipOfType(InputAction.CallbackContext context)
+    {
+        if(inputManager.selected_ships.Count > 0)
+        {
+            Stop_ShowActionWheelAfterMultiTapDelay_Coroutine();
+
+            Debug.Log("Selecting all ships of type " + inputManager.selected_ships[0].shipData.name);
+            inputManager.UpdateActionWheel();
+        }
     }
 
     private void UpdateSelectionBox(InputAction.CallbackContext context)

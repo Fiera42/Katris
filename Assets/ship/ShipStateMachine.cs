@@ -52,6 +52,16 @@ public class ShipStateMachine : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        shipData.RegisterShip(this);
+    }
+
+    private void OnDisable()
+    {
+        shipData.ForgetShip(this);
+    }
+
     // -------------------------------- STATE MACHINE
 
     private void FixedUpdate()
