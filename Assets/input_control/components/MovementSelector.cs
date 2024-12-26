@@ -62,7 +62,7 @@ public class MovementSelector : MonoBehaviour
         float radius = Vector2.Distance((Vector2)zoneDisplay.transform.position, mousePosition) * 2;
         zoneDisplay.transform.localScale = new Vector2(radius, radius);
     }
-    private void OnPlacePoint(InputAction.CallbackContext context)
+    public void OnPlacePoint(InputAction.CallbackContext context)
     {
 
         // No patrol -> No zone

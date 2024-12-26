@@ -27,9 +27,10 @@ public class InputManager : MonoBehaviour
     public bool keepActionWheelOnScreen;
 
     // -------------------------------- PARAMS
-    private MovementSelector movementSelector;
-    private UnitSelector unitSelector;
-    private ActionWheel actionWheelScript;
+    public MovementSelector movementSelector { get; private set; }
+    public UnitSelector unitSelector { get; private set; }
+    public ActionWheel actionWheelScript { get; private set; }
+    public CameraMovement cameraMovement { get; private set; }
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class InputManager : MonoBehaviour
         movementSelector = GetComponent<MovementSelector>();
         unitSelector = GetComponent<UnitSelector>();
         actionWheelScript = GetComponent<ActionWheel>();
+        cameraMovement = GetComponent<CameraMovement>();
 
         if (movementSelector == null)
         {
@@ -56,6 +58,13 @@ public class InputManager : MonoBehaviour
         {
             enabled = false;
             Debug.LogError($"{GetType().Name}({name}): no actionWheel found in gameObject.");
+            return;
+        }
+
+        if (cameraMovement == null)
+        {
+            enabled = false;
+            Debug.LogError($"{GetType().Name}({name}): no cameraMovement found in gameObject.");
             return;
         }
     }
@@ -113,8 +122,13 @@ public class InputManager : MonoBehaviour
 
         // Reset all components
         movementSelector.enabled = false;
-        unitSelector.enabled = true;
+        unitSelector.enabled = false;
         actionWheelScript.enabled = false;
+        cameraMovement.enabled = false;
+
+        // Activate default components
+        unitSelector.enabled = true;
+        cameraMovement.enabled = true;
 
         UpdateActionWheel();
     }

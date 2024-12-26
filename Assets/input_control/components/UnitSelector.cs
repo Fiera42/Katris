@@ -77,6 +77,11 @@ public class UnitSelector : MonoBehaviour
         isPointerOverUI = EventSystem.current.IsPointerOverGameObject();
     }
 
+    public void SetSelectAllyInPriority(bool value)
+    {
+        selectAllyInPriority = value;
+    }
+
     private void OnStartSelection(InputAction.CallbackContext context)
     {
         if(isPointerOverUI)
@@ -149,7 +154,23 @@ public class UnitSelector : MonoBehaviour
         {
             Stop_ShowActionWheelAfterMultiTapDelay_Coroutine();
 
-            Debug.Log("Selecting all ships of type " + inputManager.selected_ships[0].shipData.name);
+            List<ShipStateMachine> selectedShips = inputManager.selected_ships[0].shipData.GetAllShipOfType();
+            string shipTag = inputManager.selected_ships[0].tag;
+
+            foreach (ShipStateMachine ship in inputManager.selected_ships)
+            {
+                ship.SelectionCircle.gameObject.SetActive(false);
+            }
+            inputManager.selected_ships.Clear();
+
+            foreach (ShipStateMachine ship in selectedShips)
+            {
+                if (!ship.CompareTag(shipTag)) continue;
+
+                ship.SelectionCircle.gameObject.SetActive(true);
+                inputManager.selected_ships.Add(ship);
+            }
+
             inputManager.UpdateActionWheel();
         }
     }
@@ -161,6 +182,7 @@ public class UnitSelector : MonoBehaviour
         Vector2 size = mousePosition - selectionStartPosition;
         selectionBox.sizeDelta = new Vector2(Mathf.Abs(size.x), Mathf.Abs(size.y));
         selectionBox.anchoredPosition = (selectionStartPosition + mousePosition) / 2;
+        bool keepOnlyFirst = (selectionBox.sizeDelta.x * selectionBox.sizeDelta.y < 100);
 
         // Project the hud rectangle into a worldspace rectangle
         Vector3 projectedStartPosition = Camera.main.ScreenToWorldPoint(selectionStartPosition);
@@ -169,10 +191,10 @@ public class UnitSelector : MonoBehaviour
         Vector2 raycastBoxSize = new Vector2(Mathf.Abs(size.x), Mathf.Abs(size.y));
         Vector2 raycastBoxCenter = (projectedStartPosition + projectedMousePosition) / 2;
 
-        CastSelectionBox(raycastBoxCenter, raycastBoxSize);
+        CastSelectionBox(raycastBoxCenter, raycastBoxSize, keepOnlyFirst);
     }
 
-    protected void CastSelectionBox(Vector2 raycastBoxCenter, Vector2 raycastBoxSize)
+    protected void CastSelectionBox(Vector2 raycastBoxCenter, Vector2 raycastBoxSize, bool keepOnlyFirst)
     {
         // OverlapBox to find the units
 
@@ -191,6 +213,31 @@ public class UnitSelector : MonoBehaviour
                     allyShips.Add(ship);
                 }
                 else
+                {
+                    otherShips.Add(ship);
+                }
+            }
+        }
+
+        if(keepOnlyFirst)
+        {
+            if (allyShips.Count != 0)
+            {
+                ShipStateMachine ship = allyShips[0];
+                allyShips.Clear();
+                otherShips.Clear();
+                if(ship != null)
+                {
+                    allyShips.Add(ship);
+                }
+            }
+            else
+            {
+
+                ShipStateMachine ship = (otherShips.Count != 0)?otherShips[0] : null;
+                allyShips.Clear();
+                otherShips.Clear();
+                if(ship != null)
                 {
                     otherShips.Add(ship);
                 }

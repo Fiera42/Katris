@@ -217,6 +217,15 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""quickMoveInteract"",
+                    ""type"": ""Button"",
+                    ""id"": ""04d9ac22-f9b3-4b81-af59-c86e6d5f1fa0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -263,6 +272,109 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""action"": ""attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bce03648-4078-4ee9-95e2-63713eff45f1"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""quickMoveInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""CameraMovement"",
+            ""id"": ""1e7c01fe-8610-45bf-bcb1-d5d66547c17e"",
+            ""actions"": [
+                {
+                    ""name"": ""DragMove"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a72b6fa-0559-4d5c-9aa9-90e85ed0229f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""KeyMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""8db6d24e-68e1-42e1-aead-846887c72e0a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e16c5fba-5a6b-4d22-9b25-0185f90f9869"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DragMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""d32ff57b-b405-45c7-8e9d-6a84a8467367"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""fc685c21-a543-406c-9fbe-48bc2b2abd20"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""16e0927f-8279-4f09-b48d-34ae8627beb2"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""440f6944-0296-4bb6-a00b-730f8b7c6a9d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""f8df901f-4624-40f4-ab80-98067512d59f"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -287,6 +399,11 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         m_ActionWheelShortcuts_patrol = m_ActionWheelShortcuts.FindAction("patrol", throwIfNotFound: true);
         m_ActionWheelShortcuts_scout = m_ActionWheelShortcuts.FindAction("scout", throwIfNotFound: true);
         m_ActionWheelShortcuts_attack = m_ActionWheelShortcuts.FindAction("attack", throwIfNotFound: true);
+        m_ActionWheelShortcuts_quickMoveInteract = m_ActionWheelShortcuts.FindAction("quickMoveInteract", throwIfNotFound: true);
+        // CameraMovement
+        m_CameraMovement = asset.FindActionMap("CameraMovement", throwIfNotFound: true);
+        m_CameraMovement_DragMove = m_CameraMovement.FindAction("DragMove", throwIfNotFound: true);
+        m_CameraMovement_KeyMove = m_CameraMovement.FindAction("KeyMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -514,6 +631,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     private readonly InputAction m_ActionWheelShortcuts_patrol;
     private readonly InputAction m_ActionWheelShortcuts_scout;
     private readonly InputAction m_ActionWheelShortcuts_attack;
+    private readonly InputAction m_ActionWheelShortcuts_quickMoveInteract;
     public struct ActionWheelShortcutsActions
     {
         private @InputController m_Wrapper;
@@ -522,6 +640,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         public InputAction @patrol => m_Wrapper.m_ActionWheelShortcuts_patrol;
         public InputAction @scout => m_Wrapper.m_ActionWheelShortcuts_scout;
         public InputAction @attack => m_Wrapper.m_ActionWheelShortcuts_attack;
+        public InputAction @quickMoveInteract => m_Wrapper.m_ActionWheelShortcuts_quickMoveInteract;
         public InputActionMap Get() { return m_Wrapper.m_ActionWheelShortcuts; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -543,6 +662,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @attack.started += instance.OnAttack;
             @attack.performed += instance.OnAttack;
             @attack.canceled += instance.OnAttack;
+            @quickMoveInteract.started += instance.OnQuickMoveInteract;
+            @quickMoveInteract.performed += instance.OnQuickMoveInteract;
+            @quickMoveInteract.canceled += instance.OnQuickMoveInteract;
         }
 
         private void UnregisterCallbacks(IActionWheelShortcutsActions instance)
@@ -559,6 +681,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @attack.started -= instance.OnAttack;
             @attack.performed -= instance.OnAttack;
             @attack.canceled -= instance.OnAttack;
+            @quickMoveInteract.started -= instance.OnQuickMoveInteract;
+            @quickMoveInteract.performed -= instance.OnQuickMoveInteract;
+            @quickMoveInteract.canceled -= instance.OnQuickMoveInteract;
         }
 
         public void RemoveCallbacks(IActionWheelShortcutsActions instance)
@@ -576,6 +701,60 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         }
     }
     public ActionWheelShortcutsActions @ActionWheelShortcuts => new ActionWheelShortcutsActions(this);
+
+    // CameraMovement
+    private readonly InputActionMap m_CameraMovement;
+    private List<ICameraMovementActions> m_CameraMovementActionsCallbackInterfaces = new List<ICameraMovementActions>();
+    private readonly InputAction m_CameraMovement_DragMove;
+    private readonly InputAction m_CameraMovement_KeyMove;
+    public struct CameraMovementActions
+    {
+        private @InputController m_Wrapper;
+        public CameraMovementActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @DragMove => m_Wrapper.m_CameraMovement_DragMove;
+        public InputAction @KeyMove => m_Wrapper.m_CameraMovement_KeyMove;
+        public InputActionMap Get() { return m_Wrapper.m_CameraMovement; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraMovementActions set) { return set.Get(); }
+        public void AddCallbacks(ICameraMovementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CameraMovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CameraMovementActionsCallbackInterfaces.Add(instance);
+            @DragMove.started += instance.OnDragMove;
+            @DragMove.performed += instance.OnDragMove;
+            @DragMove.canceled += instance.OnDragMove;
+            @KeyMove.started += instance.OnKeyMove;
+            @KeyMove.performed += instance.OnKeyMove;
+            @KeyMove.canceled += instance.OnKeyMove;
+        }
+
+        private void UnregisterCallbacks(ICameraMovementActions instance)
+        {
+            @DragMove.started -= instance.OnDragMove;
+            @DragMove.performed -= instance.OnDragMove;
+            @DragMove.canceled -= instance.OnDragMove;
+            @KeyMove.started -= instance.OnKeyMove;
+            @KeyMove.performed -= instance.OnKeyMove;
+            @KeyMove.canceled -= instance.OnKeyMove;
+        }
+
+        public void RemoveCallbacks(ICameraMovementActions instance)
+        {
+            if (m_Wrapper.m_CameraMovementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICameraMovementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CameraMovementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CameraMovementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CameraMovementActions @CameraMovement => new CameraMovementActions(this);
     public interface IGeneralActions
     {
         void OnMousePosition(InputAction.CallbackContext context);
@@ -597,5 +776,11 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         void OnPatrol(InputAction.CallbackContext context);
         void OnScout(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnQuickMoveInteract(InputAction.CallbackContext context);
+    }
+    public interface ICameraMovementActions
+    {
+        void OnDragMove(InputAction.CallbackContext context);
+        void OnKeyMove(InputAction.CallbackContext context);
     }
 }

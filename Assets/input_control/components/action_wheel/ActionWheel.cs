@@ -63,6 +63,7 @@ public class ActionWheel : MonoBehaviour
         inputManager.inputController.ActionWheelShortcuts.patrol.performed += OnPatrolPressed;
         inputManager.inputController.ActionWheelShortcuts.scout.performed += OnScoutPressed;
         inputManager.inputController.ActionWheelShortcuts.attack.performed += OnAttackPressed;
+        inputManager.inputController.ActionWheelShortcuts.quickMoveInteract.performed += OnQuickMovePressed;
         wheelButtons.moveButton.onClick.AddListener(() => { OnMovePressed(new InputAction.CallbackContext()); });
         wheelButtons.patrolButton.onClick.AddListener(() => { OnPatrolPressed(new InputAction.CallbackContext()); });
         wheelButtons.scoutButton.onClick.AddListener(() => { OnScoutPressed(new InputAction.CallbackContext()); });
@@ -103,6 +104,12 @@ public class ActionWheel : MonoBehaviour
     public void OnAttackPressed(InputAction.CallbackContext context)
     {
         inputManager.AttackOrder();
+    }
+
+    public void OnQuickMovePressed(InputAction.CallbackContext context)
+    {
+        inputManager.movementSelector.isPatrolOrder = false;
+        inputManager.movementSelector.OnPlacePoint(context);
     }
 
     public void OnCenterCameraOnSelectionPressed(InputAction.CallbackContext context)
